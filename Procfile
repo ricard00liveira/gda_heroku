@@ -1,1 +1,1 @@
-web: gunicorn denuncias.wsgi --log-file -
+web: gunicorn gda.wsgi --log-file -
