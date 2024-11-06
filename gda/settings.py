@@ -31,7 +31,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['gda-app-22cb3b24bc60.herokuapp.com', '127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
