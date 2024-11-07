@@ -58,7 +58,6 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'https://gda-front.netlify.app/'
     # URL do frontend React
 ]
 
@@ -154,4 +153,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'denuncias_app.User'
 
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
