@@ -1,0 +1,2 @@
+# Comando para criar requirements.txt atualizado
+pip freeze > requirements.txt
