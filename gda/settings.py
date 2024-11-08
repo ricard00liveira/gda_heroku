@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-6s*p65htiq!019(hjpd4u7r5-#%mxsakdm64(xuvvt!%a4z@nr"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['gda-app-22cb3b24bc60.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['gda-app-22cb3b24bc60.herokuapp.com', '127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -63,12 +63,13 @@ CORS_ALLOWED_ORIGINS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        #'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
+        #'rest_framework.permissions.AllowAny',
     ],
 }
 
@@ -152,5 +153,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'denuncias_app.User'
+
+# JWT use CPF like ID!
+from rest_framework_simplejwt.settings import api_settings
+api_settings.USER_ID_FIELD = 'cpf'
+api_settings.USER_ID_CLAIM = 'cpf'
 
 #django_heroku.settings(locals())
