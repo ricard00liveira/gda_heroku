@@ -16,9 +16,6 @@ def lista_denuncias(request):
     serializer = DenunciaSerializer(denuncias, many=True)
     return Response(serializer.data)
 
-def view_lista_denuncias(request):
-    return render(request, 'denuncias_list.html')
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_profile(request):
