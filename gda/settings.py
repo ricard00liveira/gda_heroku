@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-#import django_heroku
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -162,5 +161,3 @@ AUTH_USER_MODEL = 'denuncias_app.User'
 from rest_framework_simplejwt.settings import api_settings
 api_settings.USER_ID_FIELD = 'cpf'
 api_settings.USER_ID_CLAIM = 'cpf'
-
-django_heroku.settings(locals())
