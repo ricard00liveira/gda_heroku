@@ -3,8 +3,8 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from .models import Denuncia, Municipio
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from .models import Denuncia, Municipio, User
 from .serializers import DenunciaSerializer, MunicipioSerializer
 
 class DenunciaViewSet(viewsets.ModelViewSet):
@@ -15,12 +15,25 @@ class MunicipioViewSet(viewsets.ModelViewSet):
     queryset = Municipio.objects.all()
     serializer_class = MunicipioSerializer
     
+# CRUD MUNICIPIOS
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def lista_municipios(request):
     municipios = Municipio.objects.all()
     serializer = MunicipioSerializer(municipios, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def criar_municipio(request):
+    if request.method == 'POST':
+        serializer = MunicipioSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # CRUD DENUNCIAS
@@ -31,7 +44,7 @@ def lista_denuncias(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminUser])
 def criar_denuncia(request):
     descricao = request.data.get('descricao')
     municipio_id = request.data.get('municipio')
@@ -61,6 +74,43 @@ def delete_denuncia(request, denuncia_id):
     denuncia.delete()
     return Response({'message': 'Denúncia deletada com sucesso.'}, status=status.HTTP_204_NO_CONTENT)
 
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def editar_denuncia(request, denuncia_id):
+    try:
+        denuncia = Denuncia.objects.get(numero=denuncia_id)
+    except Denuncia.DoesNotExist:
+        return Response({'error': 'Denúncia não encontrada'}, status=status.HTTP_404_NOT_FOUND)
+    
+    usuario = User.objects.get(cpf=request.user.cpf)
+    if usuario.tipo_usuario != 'adm' and usuario.tipo_usuario != 'operador':
+        return Response({'error': 'Você não tem permissão para essa ação.'}, status=status.HTTP_404_NOT_FOUND)
+
+    descricao = request.data.get('descricao', None)
+    municipio_id = request.data.get('municipio', None)
+    status_denuncia = request.data.get('status', None)
+
+    if status_denuncia is not None:
+        if status_denuncia == 'Pendente' or status_denuncia == 'Resolvido':
+            denuncia.status = status_denuncia
+        else:
+            return Response({'error': 'Status não encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+    if descricao is not None:
+        denuncia.descricao = descricao
+
+    if municipio_id is not None:
+        try:
+            municipio = Municipio.objects.get(id=municipio_id)
+            denuncia.municipio = municipio
+        except Municipio.DoesNotExist:
+            return Response({'error': 'Município inválido'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    denuncia.save()
+
+    serializer = DenunciaSerializer(denuncia)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 # PROFILE
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -70,5 +120,5 @@ def user_profile(request):
         "cpf": user.cpf,
         "email": user.email,
         "nome": user.nome,
-        "tipo_usuario": user.tipo_usuario
+        "tipo": user.tipo_usuario
     })

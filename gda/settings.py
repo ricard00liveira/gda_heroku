@@ -102,11 +102,10 @@ WSGI_APPLICATION = "gda.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'koyebdb',
-        'USER': 'koyeb-adm',
-        'PASSWORD': 'VxEW87eMPsZf',
-        'HOST': 'ep-odd-sun-a42r1iry.us-east-1.pg.koyeb.app',
-        'OPTIONS': {'sslmode': 'require'},
+        'NAME': 'gda_app',
+        'USER': 'usuario',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',
     }
 }
 
