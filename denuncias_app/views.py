@@ -39,29 +39,41 @@ def criar_municipio(request):
 # CRUD DENUNCIAS
 @api_view(['GET'])
 def lista_denuncias(request):
-    denuncias = Denuncia.objects.all()
-    serializer = DenunciaSerializer(denuncias, many=True)
+    if request.user.tipo_usuario == 'comum':
+        denuncias = Denuncia.objects.filter(usuario=request.user)
+    else:
+        denuncias = Denuncia.objects.all()
+    serializer = DenunciaSerializer(denuncias, many=True, context={'request': request})
     return Response(serializer.data)
 
-@api_view(['POST'])
-@permission_classes([IsAdminUser])
-def criar_denuncia(request):
-    descricao = request.data.get('descricao')
-    municipio_id = request.data.get('municipio')
-    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def read_denuncia(request, denuncia_id):
     try:
-        municipio = Municipio.objects.get(id=municipio_id)
-    except Municipio.DoesNotExist:
-        return Response({'error': 'Município inválido'}, status=status.HTTP_400_BAD_REQUEST)
-
-    denuncia = Denuncia.objects.create(
-        descricao=descricao,
-        municipio=municipio,
-        usuario=request.user
-    )
+        denuncia = Denuncia.objects.get(numero=denuncia_id)
+    except Denuncia.DoesNotExist:
+        return Response({'error': 'Denúncia não encontrada.'},
+                        status=status.HTTP_404_NOT_FOUND)
     
-    serializer = DenunciaSerializer(denuncia)
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    if request.user.tipo_usuario == 'comum' and denuncia.usuario != request.user:
+        return Response({'error': 'Você não tem permissão para acessar esta denúncia.'},
+                        status=status.HTTP_403_FORBIDDEN)
+
+    serializer = DenunciaSerializer(denuncia, context={'request': request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def criar_denuncia(request):
+    data = request.data.copy()
+    data['usuario'] = request.user.cpf
+    
+    serializer = DenunciaSerializer(data=data, context={'request': request})
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])

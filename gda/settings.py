@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-6s*p65htiq!019(hjpd4u7r5-#%mxsakdm64(xuvvt!%a4z@nr"
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+
+DEBUG = True
 
 #ALLOWED_HOSTS = []
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]").split(",")
@@ -102,10 +105,13 @@ WSGI_APPLICATION = "gda.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gda_app',
-        'USER': 'usuario',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
+        'NAME': config('DB_NAME', default='gda_app'),
+        'USER': config('DB_USER', default='usuario'),
+        'PASSWORD': config('DB_PASSWORD', default='1234'),
+        'HOST': config('DB_HOST', default='localhost'),
+        'OPTIONS': {
+            'sslmode': config('DB_SSLMODE'),
+        },
     }
 }
 
@@ -160,3 +166,13 @@ AUTH_USER_MODEL = 'denuncias_app.User'
 from rest_framework_simplejwt.settings import api_settings
 api_settings.USER_ID_FIELD = 'cpf'
 api_settings.USER_ID_CLAIM = 'cpf'
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
