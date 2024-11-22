@@ -1,3 +1,4 @@
 /staticfiles/
 DEPLOY.txt
 .env
+.env.prod
