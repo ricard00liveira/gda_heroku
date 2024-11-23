@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-from datetime import timedelta
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,7 +43,9 @@ INSTALLED_APPS = [
     # Novos
     'rest_framework',
     'corsheaders',  # Permitir requisições do front-end
-    'denuncias_app',  # app principal para denúncias ambientais
+    'usuarios', # Gerencia usuarios
+    'denuncias',  # Gerencia denúncias ambientais
+    'enderecos', # Gerencia municipios, comarcas e logradouros
 ]
 
 MIDDLEWARE = [
@@ -160,15 +161,16 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = 'denuncias_app.User'
+AUTH_USER_MODEL = 'usuarios.User'
 
 # JWT use CPF like ID!
 from rest_framework_simplejwt.settings import api_settings
 api_settings.USER_ID_FIELD = 'cpf'
 api_settings.USER_ID_CLAIM = 'cpf'
 
+from datetime import timedelta
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
