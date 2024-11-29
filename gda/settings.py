@@ -111,9 +111,6 @@ DATABASES = {
         'USER': config('DB_USER', default='usuario'),
         'PASSWORD': config('DB_PASSWORD', default='1234'),
         'HOST': config('DB_HOST', default='localhost'),
-        'OPTIONS': {
-            'sslmode': config('DB_SSLMODE'),
-        },
     }
 }
 
