@@ -64,8 +64,9 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'https://gda-front.netlify.app'
-    'https://gda-app.xyz'
+    'https://gda-front.netlify.app',
+    'https://gda-app.xyz',
+    'https://back.gda-app.xyz'
     # URL do frontend React
 ]
 
