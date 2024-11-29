@@ -18,5 +18,5 @@ class LogradouroAdmin(admin.ModelAdmin):
     
 @admin.register(LogCor)
 class LogCorAdmin(admin.ModelAdmin):
-    list_display = ('id','logradouro',)
-    search_fields = ('logradouro','dados')
+    list_display = ('id','logradouro')
+    search_fields = ('logradouro__nome',)
