@@ -24,7 +24,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     TIPOS_USUARIO = [
-        ('comum', 'Comum'),
+        ('comum', 'Cidadão'),
         ('operador', 'Operador'),
         ('adm', 'Administrador'),
     ]
@@ -32,9 +32,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     cpf = models.CharField(max_length=11, primary_key=True, unique=True, verbose_name="CPF")
     email = models.EmailField(unique=True, verbose_name="Email")
     nome = models.CharField(max_length=150, verbose_name="Nome")
+    telefone = models.CharField(max_length=15, blank=True, null=True, verbose_name="Telefone")
     tipo_usuario = models.CharField(max_length=20, choices=TIPOS_USUARIO, default='comum', verbose_name="Tipo de Usuário")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    self_registration = models.BooleanField(default=False)
 
     objects = UserManager()
 

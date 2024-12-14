@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
+from rest_framework_simplejwt.settings import api_settings
 from pathlib import Path
 import os
 from decouple import config
@@ -29,8 +31,9 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = True
 
-#ALLOWED_HOSTS = []
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]").split(",")
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS",
+                          "localhost,127.0.0.1,[::1]").split(",")
 
 # Application definition
 
@@ -44,9 +47,10 @@ INSTALLED_APPS = [
     # Novos
     'rest_framework',
     'corsheaders',  # Permitir requisições do front-end
-    'usuarios', # Gerencia usuarios
+    'usuarios',  # Gerencia usuarios
     'denuncias',  # Gerencia denúncias ambientais
-    'enderecos', # Gerencia municipios, comarcas e logradouros
+    'enderecos',  # Gerencia municipios, comarcas e logradouros
+    'fatosesub'  # Gerencia fatos e subfatos
 ]
 
 MIDDLEWARE = [
@@ -72,13 +76,13 @@ CORS_ALLOWED_ORIGINS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        #'rest_framework.authentication.SessionAuthentication',
-        #'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-        #'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.AllowAny',
     ],
 }
 
@@ -164,11 +168,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'usuarios.User'
 
 # JWT use CPF like ID!
-from rest_framework_simplejwt.settings import api_settings
 api_settings.USER_ID_FIELD = 'cpf'
 api_settings.USER_ID_CLAIM = 'cpf'
 
-from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
