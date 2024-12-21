@@ -1,0 +1,695 @@
+{
+	"info": {
+		"_postman_id": "9b1e3c92-ef93-4aa1-aef6-178b676e887a",
+		"name": "API DJANGO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39601336"
+	},
+	"item": [
+		{
+			"name": "LOCAL",
+			"item": [
+				{
+					"name": "Denuncias",
+					"item": [
+						{
+							"name": "Listar_denuncias",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMjc3NzM5LCJpYXQiOjE3MzIyNzc0MzksImp0aSI6IjExYzk1MWVlMzdlMzQyMDZhNzE3YmQ1YzZjN2Q0ZTZlIiwiY3BmIjoiMTExMTExMTExMTEifQ.k69pnaH4E4b0vOG0vBf36lUJ1ytw-EDf1lD03h7WirE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/denuncias",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"denuncias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create_denuncia",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMjU0NzQyLCJpYXQiOjE3MzIyNTQ0NDIsImp0aSI6Ijg5YmEwMTNmODgyNDQ4NzRiNzZhYjE0YmU4ODNhZjZiIiwiY3BmIjoiMTIzNDU2Nzg5MDEifQ.KBT2j9Zic7ExSFOb48v5j0If1yWd10GwzZPXBLRse3Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"descricao\": \"Gatinho miando\",\n    \"municipio\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/denuncias/create",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"denuncias",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read_denuncia",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMjU1MjQ2LCJpYXQiOjE3MzIyNTQ5NDYsImp0aSI6ImVlNDliMzRmM2ViNTQ0NmI5NGI0NzM1YjBmZTYxYjAyIiwiY3BmIjoiMTIzNDU2Nzg5MDEifQ.Xs403FvhTTfFBouSftEOSSK_jnNjBdvwPmzls82OIEk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/denuncias/read/10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"denuncias",
+										"read",
+										"10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update_denuncia",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxMzMxODYwLCJpYXQiOjE3MzEzMzE1NjAsImp0aSI6Ijg4YTA5NjhkYWNjYjRkNGQ5OGZmNGZkZTU0NWY5NDAxIiwiY3BmIjoiMTExMTExMTExMTEifQ.8Hn3OyXamlSwbIL5RVHhuNhnwC0VncA3cLKx3v9lVQ4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"descricao\":\"denuncia editada!\",\n    \"municipio\":1,\n    \"status\":\"Pendente\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/denuncias/update/5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"denuncias",
+										"update",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletar_denuncia",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxMzI3MzY2LCJpYXQiOjE3MzEzMjcwNjYsImp0aSI6IjM2ZjE1MjA0YmQyNjQ2M2FiNDJhYjFiZTEwODM3MDFlIiwiY3BmIjoiMTExMTExMTExMTEifQ.dsD-RHCrvI83Zf3_iIxWNUtpUeNu4JvcRzR-f8xaNH4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/denuncias/delete/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"denuncias",
+										"delete",
+										"2"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Enderecos",
+					"item": [
+						{
+							"name": "Logradouros",
+							"item": [
+								{
+									"name": "Listar_logradouros",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODkxMTQ1LCJpYXQiOjE3MzI4OTA4NDUsImp0aSI6IjA0OTNlMjY1ZTU3MzQ1MDdiZDJiYTlmOWE3ZTBmYTc3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.mr8NKhiStAwDhj21QdmnwQKRwqfAoTT1urGbOP8NoAo",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/municipios/1/logradouro?q=silva",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"municipios",
+												"1",
+												"logradouro"
+											],
+											"query": [
+												{
+													"key": "q",
+													"value": "silva"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Municipios",
+							"item": [
+								{
+									"name": "Listar_municipios",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODkwNjExLCJpYXQiOjE3MzI4OTAzMTEsImp0aSI6IjE3OTIzNDc1OWM5MjQxM2Q5NWQ3NjQxYTI4ODM1YjY1IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.TNA3uVm6Rl47MlAqPvUwIsfpqcKQbRyz5O7g2XjPgUY",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/municipios",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"municipios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create_municipios",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODkxMTQ1LCJpYXQiOjE3MzI4OTA4NDUsImp0aSI6IjA0OTNlMjY1ZTU3MzQ1MDdiZDJiYTlmOWE3ZTBmYTc3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.mr8NKhiStAwDhj21QdmnwQKRwqfAoTT1urGbOP8NoAo",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "multipart/form-data",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "nome",
+													"value": "Capão do Leão",
+													"type": "text"
+												},
+												{
+													"key": "comarca",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "arquivo",
+													"type": "file",
+													"src": "/home/tsi/Downloads/RS_faces_de_logradouros_2022_json/RS/4304663_faces_de_logradouros_2022.json"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/api/municipios/create",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"municipios",
+												"create"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Usuarios",
+					"item": [
+						{
+							"name": "Profile",
+							"item": [
+								{
+									"name": "Exibir profile",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMzMzMjUwLCJpYXQiOjE3MzIzMzI5NTAsImp0aSI6ImJmNjY0MmI1MzhjNTRiMzZhODQ3ZDVhNWI0MTNjOWMxIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.W-zoyj0O2N7Ij6VU5_uXWfwyQzrgb8kSlijFisyPqms",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"profile"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Comarcas",
+					"item": [
+						{
+							"name": "Listar_Comarcas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzM4Njk1LCJpYXQiOjE3MzQ3MzgzOTUsImp0aSI6ImU3MTA2NjMwOGM0MzQ4OWM4NjNlNjVkMzFlY2QxODZkIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.KQLAEGZ1F-U_69Fj5le5JFFW_kjav5v1PbMzuRXwq98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/comarcas",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"comarcas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ler_Comarca",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzM4Njk1LCJpYXQiOjE3MzQ3MzgzOTUsImp0aSI6ImU3MTA2NjMwOGM0MzQ4OWM4NjNlNjVkMzFlY2QxODZkIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.KQLAEGZ1F-U_69Fj5le5JFFW_kjav5v1PbMzuRXwq98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/comarcas/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"comarcas",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Criar_Comarca",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzM4Njk1LCJpYXQiOjE3MzQ3MzgzOTUsImp0aSI6ImU3MTA2NjMwOGM0MzQ4OWM4NjNlNjVkMzFlY2QxODZkIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.KQLAEGZ1F-U_69Fj5le5JFFW_kjav5v1PbMzuRXwq98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"nome\":\"Canguçu\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/comarcas/create/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"comarcas",
+										"create",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar_Comarca",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzM5MDc2LCJpYXQiOjE3MzQ3Mzg3NzYsImp0aSI6ImQwNTFkYzllMWFiNTQ2NGQ5OWQxMTYyYTg5ZmUyNWM5IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.0nka0hxt-74sPkWwoEl7H9gv7C8PvvIWnQs7vMU1wSs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":2,\r\n    \"nome\":\"Arroio Grande\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/comarcas/2/update/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"comarcas",
+										"2",
+										"update",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletar_Comarca",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzM5MDc2LCJpYXQiOjE3MzQ3Mzg3NzYsImp0aSI6ImQwNTFkYzllMWFiNTQ2NGQ5OWQxMTYyYTg5ZmUyNWM5IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.0nka0hxt-74sPkWwoEl7H9gv7C8PvvIWnQs7vMU1wSs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/comarcas/2/delete/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"comarcas",
+										"2",
+										"delete",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "Scripts para API GDA Django",
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "HEROKU",
+			"item": [
+				{
+					"name": "Create_municipio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODUwNzcxLCJpYXQiOjE3MzI4NTA0NzEsImp0aSI6IjRhM2E4MWQ5ZWIyZTRiMTQ5OGQyNDdmYmZiZGNkMmQ3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ktIvbGPJHF63CuvFL4TPwiR-UWxVwOl38q8cQbKgiUg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "comarca",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "nome",
+									"value": "Capão do Leão",
+									"type": "text"
+								},
+								{
+									"key": "arquivo",
+									"type": "file",
+									"src": "/C:/Users/Ricar/OneDrive/Documentos/VS_CODE/GDA/gda/municipios/4304663_faces_de_logradouros_2022.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{heroku_url}}api/municipios/create",
+							"host": [
+								"{{heroku_url}}api"
+							],
+							"path": [
+								"municipios",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar_logradouros",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODUwNzcxLCJpYXQiOjE3MzI4NTA0NzEsImp0aSI6IjRhM2E4MWQ5ZWIyZTRiMTQ5OGQyNDdmYmZiZGNkMmQ3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ktIvbGPJHF63CuvFL4TPwiR-UWxVwOl38q8cQbKgiUg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{heroku_url}}api/municipios/1/logradouro?q=silva",
+							"host": [
+								"{{heroku_url}}api"
+							],
+							"path": [
+								"municipios",
+								"1",
+								"logradouro"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "silva"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar_logradouros Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODUwNzcxLCJpYXQiOjE3MzI4NTA0NzEsImp0aSI6IjRhM2E4MWQ5ZWIyZTRiMTQ5OGQyNDdmYmZiZGNkMmQ3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ktIvbGPJHF63CuvFL4TPwiR-UWxVwOl38q8cQbKgiUg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{heroku_url}}api/municipios/1/logradouro?q=silva",
+							"host": [
+								"{{heroku_url}}api"
+							],
+							"path": [
+								"municipios",
+								"1",
+								"logradouro"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "silva"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000"
+		},
+		{
+			"key": "heroku_url",
+			"value": "https://gda-app-644eb108e04c.herokuapp.com/"
+		}
+	]
+}

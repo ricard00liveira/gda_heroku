@@ -7,16 +7,17 @@ from enderecos.models import Logradouro
 from usuarios.models import User
 from fatosesub.models import Fato, Subfato
 
-
 class Denuncia(models.Model):
     numero = models.AutoField(primary_key=True)
     denunciante = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         verbose_name="Denunciante",
         related_name='denunciante_denuncias'
     )
+    anonima = models.BooleanField(default=False, verbose_name="Denúncia anônima")
     descricao = models.TextField()
     data = models.DateTimeField(auto_now_add=True)
     endereco = models.ForeignKey(
@@ -62,6 +63,29 @@ class Denuncia(models.Model):
     is_deleted = models.BooleanField(default=False, verbose_name="Deletado")
     infrator = models.CharField(
         max_length=255, verbose_name="Infrator", blank=True, null=True)
+    
+    prioridade = models.CharField(
+    max_length=20,
+    choices=[('baixa', 'Baixa'), ('media', 'Média'), ('alta', 'Alta'), ('urgente', 'Urgente')],
+    default='baixa',
+    verbose_name="Prioridade"
+)
+    localizacao = models.JSONField(
+        verbose_name="Coordenada geográfica (GeoJSON)",
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return f'Denuncia {self.numero} - {self.municipio}'
+    
+class StatusHistorico(models.Model):
+    denuncia = models.ForeignKey(Denuncia, on_delete=models.CASCADE, related_name='historico_status')
+    status = models.CharField(max_length=20)
+    data_alteracao = models.DateTimeField(auto_now_add=True)
+
+class Anexo(models.Model):
+    denuncia = models.ForeignKey(Denuncia, on_delete=models.CASCADE, related_name='anexos')
+    arquivo = models.FileField(upload_to='anexos/')
+    descricao = models.CharField(max_length=255, blank=True, null=True)
+    data_upload = models.DateTimeField(auto_now_add=True)
