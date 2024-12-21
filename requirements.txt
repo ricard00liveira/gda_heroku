@@ -5,9 +5,7 @@ django-cors-headers==4.6.0
 django-filter==24.3
 django-heroku==0.3.1
 djangorestframework==3.15.2
-djangorestframework-gis==1.1
 djangorestframework-simplejwt==5.3.1
-GDAL @ file:///C:/Users/Ricar/Downloads/GDAL-3.9.2-cp312-cp312-win_amd64.whl#sha256=83409fa04412efd11652601ddab443a1e255492c58eb5a98f001f5db3b60be3d
 gunicorn==23.0.0
 packaging==24.1
 psycopg2==2.9.10
