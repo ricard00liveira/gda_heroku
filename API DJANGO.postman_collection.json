@@ -13,7 +13,7 @@
 					"name": "Denuncias",
 					"item": [
 						{
-							"name": "Listar_denuncias",
+							"name": "ListAll_denuncias",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -86,7 +86,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMjU1MjQ2LCJpYXQiOjE3MzIyNTQ5NDYsImp0aSI6ImVlNDliMzRmM2ViNTQ0NmI5NGI0NzM1YjBmZTYxYjAyIiwiY3BmIjoiMTIzNDU2Nzg5MDEifQ.Xs403FvhTTfFBouSftEOSSK_jnNjBdvwPmzls82OIEk",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE5MDEzLCJpYXQiOjE3MzQ5MTg3MTMsImp0aSI6ImFhYWMyYTc5ODExOTQxMThhZDYzOTBlN2ZhMjRjYTlmIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.09Je5nbn3bvCJrmZQvCnV7hkZIlDObgMWddfIT4-G7I",
 											"type": "string"
 										}
 									]
@@ -94,15 +94,16 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/denuncias/read/10",
+									"raw": "{{base_url}}/api/denuncias/2/read/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"api",
 										"denuncias",
+										"2",
 										"read",
-										"10"
+										""
 									]
 								}
 							},
@@ -116,7 +117,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxMzMxODYwLCJpYXQiOjE3MzEzMzE1NjAsImp0aSI6Ijg4YTA5NjhkYWNjYjRkNGQ5OGZmNGZkZTU0NWY5NDAxIiwiY3BmIjoiMTExMTExMTExMTEifQ.8Hn3OyXamlSwbIL5RVHhuNhnwC0VncA3cLKx3v9lVQ4",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE4NzM2LCJpYXQiOjE3MzQ5MTg0MzYsImp0aSI6IjNjMTQ1OTM4Y2ZkYzRmMGI5OWM4OTI1ZGQ1MWJjZDc5IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.-MGHEV3u2e8gHwfgr3nunp1kKKjCtoarSOnqNrYQTY4",
 											"type": "string"
 										}
 									]
@@ -125,7 +126,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"descricao\":\"denuncia editada!\",\n    \"municipio\":1,\n    \"status\":\"Pendente\"\n}",
+									"raw": "{\n    \"descricao\":\"denuncia editada!!!\",\n    \"municipio\":1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -133,29 +134,30 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/api/denuncias/update/5",
+									"raw": "{{base_url}}/api/denuncias/2/update/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"api",
 										"denuncias",
+										"2",
 										"update",
-										"5"
+										""
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Deletar_denuncia",
+							"name": "Delete_denuncia",
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxMzI3MzY2LCJpYXQiOjE3MzEzMjcwNjYsImp0aSI6IjM2ZjE1MjA0YmQyNjQ2M2FiNDJhYjFiZTEwODM3MDFlIiwiY3BmIjoiMTExMTExMTExMTEifQ.dsD-RHCrvI83Zf3_iIxWNUtpUeNu4JvcRzR-f8xaNH4",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE4NzM2LCJpYXQiOjE3MzQ5MTg0MzYsImp0aSI6IjNjMTQ1OTM4Y2ZkYzRmMGI5OWM4OTI1ZGQ1MWJjZDc5IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.-MGHEV3u2e8gHwfgr3nunp1kKKjCtoarSOnqNrYQTY4",
 											"type": "string"
 										}
 									]
@@ -163,15 +165,16 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/denuncias/delete/2",
+									"raw": "{{base_url}}/api/denuncias/3/delete/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"api",
 										"denuncias",
+										"3",
 										"delete",
-										"2"
+										""
 									],
 									"query": [
 										{
@@ -193,14 +196,14 @@
 							"name": "Logradouros",
 							"item": [
 								{
-									"name": "Listar_logradouros",
+									"name": "List_logradouro QUERY",
 									"request": {
 										"auth": {
 											"type": "bearer",
 											"bearer": [
 												{
 													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODkxMTQ1LCJpYXQiOjE3MzI4OTA4NDUsImp0aSI6IjA0OTNlMjY1ZTU3MzQ1MDdiZDJiYTlmOWE3ZTBmYTc3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.mr8NKhiStAwDhj21QdmnwQKRwqfAoTT1urGbOP8NoAo",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE5MDEzLCJpYXQiOjE3MzQ5MTg3MTMsImp0aSI6ImFhYWMyYTc5ODExOTQxMThhZDYzOTBlN2ZhMjRjYTlmIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.09Je5nbn3bvCJrmZQvCnV7hkZIlDObgMWddfIT4-G7I",
 													"type": "string"
 												}
 											]
@@ -208,21 +211,172 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{base_url}}/api/municipios/1/logradouro?q=silva",
+											"raw": "{{base_url}}/api/logradouros/1/?q=avenida",
 											"host": [
 												"{{base_url}}"
 											],
 											"path": [
 												"api",
-												"municipios",
+												"logradouros",
 												"1",
-												"logradouro"
+												""
 											],
 											"query": [
 												{
 													"key": "q",
-													"value": "silva"
+													"value": "avenida"
 												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create_logradouro",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE5NTc4LCJpYXQiOjE3MzQ5MTkyNzgsImp0aSI6ImRkM2M1NzdlYWQwODRiOWM5ZjEyOGQ2OThjNzVmM2U3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ne0dDnd_CplxN9MTQk16bBhb55_sHCi8nJE4oXs4FTw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\":\"AVENIDA ADOLFO FETTER\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/logradouros/1/create/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"logradouros",
+												"1",
+												"create",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read_logradouro",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE5NTc4LCJpYXQiOjE3MzQ5MTkyNzgsImp0aSI6ImRkM2M1NzdlYWQwODRiOWM5ZjEyOGQ2OThjNzVmM2U3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ne0dDnd_CplxN9MTQk16bBhb55_sHCi8nJE4oXs4FTw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/logradouros/4/read/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"logradouros",
+												"4",
+												"read",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update_logradouro",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE5NTc4LCJpYXQiOjE3MzQ5MTkyNzgsImp0aSI6ImRkM2M1NzdlYWQwODRiOWM5ZjEyOGQ2OThjNzVmM2U3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ne0dDnd_CplxN9MTQk16bBhb55_sHCi8nJE4oXs4FTw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\":\"AVENIDA IMPERADOR DOM PEDRO I\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/logradouros/4/update/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"logradouros",
+												"4",
+												"update",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete_logradouro",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE5NTc4LCJpYXQiOjE3MzQ5MTkyNzgsImp0aSI6ImRkM2M1NzdlYWQwODRiOWM5ZjEyOGQ2OThjNzVmM2U3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ne0dDnd_CplxN9MTQk16bBhb55_sHCi8nJE4oXs4FTw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/logradouros/4/delete/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"logradouros",
+												"4",
+												"delete",
+												""
 											]
 										}
 									},
@@ -234,14 +388,14 @@
 							"name": "Municipios",
 							"item": [
 								{
-									"name": "Listar_municipios",
+									"name": "ListAll_municipio",
 									"request": {
 										"auth": {
 											"type": "bearer",
 											"bearer": [
 												{
 													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODkwNjExLCJpYXQiOjE3MzI4OTAzMTEsImp0aSI6IjE3OTIzNDc1OWM5MjQxM2Q5NWQ3NjQxYTI4ODM1YjY1IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.TNA3uVm6Rl47MlAqPvUwIsfpqcKQbRyz5O7g2XjPgUY",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE5NTc4LCJpYXQiOjE3MzQ5MTkyNzgsImp0aSI6ImRkM2M1NzdlYWQwODRiOWM5ZjEyOGQ2OThjNzVmM2U3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ne0dDnd_CplxN9MTQk16bBhb55_sHCi8nJE4oXs4FTw",
 													"type": "string"
 												}
 											]
@@ -249,68 +403,330 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{base_url}}/api/municipios",
-											"host": [
-												"{{base_url}}"
-											],
-											"path": [
-												"api",
-												"municipios"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Create_municipios",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODkxMTQ1LCJpYXQiOjE3MzI4OTA4NDUsImp0aSI6IjA0OTNlMjY1ZTU3MzQ1MDdiZDJiYTlmOWE3ZTBmYTc3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.mr8NKhiStAwDhj21QdmnwQKRwqfAoTT1urGbOP8NoAo",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "multipart/form-data",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "formdata",
-											"formdata": [
-												{
-													"key": "nome",
-													"value": "Capão do Leão",
-													"type": "text"
-												},
-												{
-													"key": "comarca",
-													"value": "1",
-													"type": "text"
-												},
-												{
-													"key": "arquivo",
-													"type": "file",
-													"src": "/home/tsi/Downloads/RS_faces_de_logradouros_2022_json/RS/4304663_faces_de_logradouros_2022.json"
-												}
-											]
-										},
-										"url": {
-											"raw": "{{base_url}}/api/municipios/create",
+											"raw": "{{base_url}}/api/municipios/",
 											"host": [
 												"{{base_url}}"
 											],
 											"path": [
 												"api",
 												"municipios",
-												"create"
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create_municipio",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE5OTgwLCJpYXQiOjE3MzQ5MTk2ODAsImp0aSI6ImUyNDY3YzkyODEwZDRkZTQ4OWRjNTM0NzA5ZDFmYTMyIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.7ExAWXpO14-kLBfHwWkxB1mhe_lu9wf9tmxOtL16FFU",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\":\"Turuçu\",\r\n    \"comarca\":1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/municipios/create/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"municipios",
+												"create",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read_municipio",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTE5OTgwLCJpYXQiOjE3MzQ5MTk2ODAsImp0aSI6ImUyNDY3YzkyODEwZDRkZTQ4OWRjNTM0NzA5ZDFmYTMyIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.7ExAWXpO14-kLBfHwWkxB1mhe_lu9wf9tmxOtL16FFU",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/municipios/4/read/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"municipios",
+												"4",
+												"read",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update_municipio",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIwMzI5LCJpYXQiOjE3MzQ5MjAwMjksImp0aSI6ImUzYzdjNTI1YjQ3NTQ2OTA5NTg0ODBjMDRjYmViZmFiIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.mjQIcJGA3wVEstcBAAq6g2rRVVVMIItZPU5EWOOCwIc",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"comarca\":1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/municipios/2/update/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"municipios",
+												"2",
+												"update",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete_municipio",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIwMzI5LCJpYXQiOjE3MzQ5MjAwMjksImp0aSI6ImUzYzdjNTI1YjQ3NTQ2OTA5NTg0ODBjMDRjYmViZmFiIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.mjQIcJGA3wVEstcBAAq6g2rRVVVMIItZPU5EWOOCwIc",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/municipios/3/delete/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"municipios",
+												"3",
+												"delete",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Comarcas",
+							"item": [
+								{
+									"name": "ListAll_Comarca",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIwNDI1LCJpYXQiOjE3MzQ5MjAxMjUsImp0aSI6IjFjNzcyNWEzZGZmOTQyMzU5Nzk4MzA4MzQ0YzVjODUwIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ODzbxHpCUqPAU3xQDl_gGsGyVMW7vchwRpTVykt6LDg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/comarcas/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"comarcas",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create_Comarca",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIwNDI1LCJpYXQiOjE3MzQ5MjAxMjUsImp0aSI6IjFjNzcyNWEzZGZmOTQyMzU5Nzk4MzA4MzQ0YzVjODUwIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ODzbxHpCUqPAU3xQDl_gGsGyVMW7vchwRpTVykt6LDg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n \"nome\":\"Canguçu\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/comarcas/create/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"comarcas",
+												"create",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read_Comarca",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIwNDI1LCJpYXQiOjE3MzQ5MjAxMjUsImp0aSI6IjFjNzcyNWEzZGZmOTQyMzU5Nzk4MzA4MzQ0YzVjODUwIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ODzbxHpCUqPAU3xQDl_gGsGyVMW7vchwRpTVykt6LDg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/comarcas/1/read/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"comarcas",
+												"1",
+												"read",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update_Comarca",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIwNDI1LCJpYXQiOjE3MzQ5MjAxMjUsImp0aSI6IjFjNzcyNWEzZGZmOTQyMzU5Nzk4MzA4MzQ0YzVjODUwIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ODzbxHpCUqPAU3xQDl_gGsGyVMW7vchwRpTVykt6LDg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\":\"Arroio Grande\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/api/comarcas/3/update/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"comarcas",
+												"3",
+												"update",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete_Comarca",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIwNDI1LCJpYXQiOjE3MzQ5MjAxMjUsImp0aSI6IjFjNzcyNWEzZGZmOTQyMzU5Nzk4MzA4MzQ0YzVjODUwIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ODzbxHpCUqPAU3xQDl_gGsGyVMW7vchwRpTVykt6LDg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/comarcas/3/delete/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"comarcas",
+												"3",
+												"delete",
+												""
 											]
 										}
 									},
@@ -324,52 +740,14 @@
 					"name": "Usuarios",
 					"item": [
 						{
-							"name": "Profile",
-							"item": [
-								{
-									"name": "Exibir profile",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMzMzMjUwLCJpYXQiOjE3MzIzMzI5NTAsImp0aSI6ImJmNjY0MmI1MzhjNTRiMzZhODQ3ZDVhNWI0MTNjOWMxIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.W-zoyj0O2N7Ij6VU5_uXWfwyQzrgb8kSlijFisyPqms",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{base_url}}/api/profile",
-											"host": [
-												"{{base_url}}"
-											],
-											"path": [
-												"api",
-												"profile"
-											]
-										}
-									},
-									"response": []
-								}
-							]
-						}
-					]
-				},
-				{
-					"name": "Comarcas",
-					"item": [
-						{
-							"name": "Listar_Comarcas",
+							"name": "ShowProfile",
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzM4Njk1LCJpYXQiOjE3MzQ3MzgzOTUsImp0aSI6ImU3MTA2NjMwOGM0MzQ4OWM4NjNlNjVkMzFlY2QxODZkIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.KQLAEGZ1F-U_69Fj5le5JFFW_kjav5v1PbMzuRXwq98",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxNDg5LCJpYXQiOjE3MzQ5MjExODksImp0aSI6IjRjZDc1MGE1MmNmODQxOTdiYWEyNDc5ODkxYzEwMTM0IiwiY3BmIjoiMjIyMjIyMjIyMjIifQ.PLqQPvrWR0Ae-aWdFDRR-90EVjuSXN_n_Xf6F5VKXCY",
 											"type": "string"
 										}
 									]
@@ -377,27 +755,28 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/comarcas",
+									"raw": "{{base_url}}/api/profile/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"api",
-										"comarcas"
+										"profile",
+										""
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Ler_Comarca",
+							"name": "ListAll_usuarios",
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzM4Njk1LCJpYXQiOjE3MzQ3MzgzOTUsImp0aSI6ImU3MTA2NjMwOGM0MzQ4OWM4NjNlNjVkMzFlY2QxODZkIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.KQLAEGZ1F-U_69Fj5le5JFFW_kjav5v1PbMzuRXwq98",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIwNzUzLCJpYXQiOjE3MzQ5MjA0NTMsImp0aSI6IjQxYWUyMTE2ODkxMTRjMzViOTEyMjIxN2EyZmY0NTlmIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.manb1ifEsQ2mZuyi2gNl0xDciw5I3m420IY7D6kMAEk",
 											"type": "string"
 										}
 									]
@@ -405,37 +784,27 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/comarcas/1",
+									"raw": "{{base_url}}/api/usuarios/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"api",
-										"comarcas",
-										"1"
+										"usuarios",
+										""
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Criar_Comarca",
+							"name": "Create_usuario",
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzM4Njk1LCJpYXQiOjE3MzQ3MzgzOTUsImp0aSI6ImU3MTA2NjMwOGM0MzQ4OWM4NjNlNjVkMzFlY2QxODZkIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.KQLAEGZ1F-U_69Fj5le5JFFW_kjav5v1PbMzuRXwq98",
-											"type": "string"
-										}
-									]
-								},
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n \"nome\":\"Canguçu\"\r\n}\r\n",
+									"raw": "{\r\n    \"cpf\":\"22222222222\",\r\n    \"nome\":\"Tester\",\r\n    \"email\":\"d@d.com\",\r\n    \"password\":\"123456\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -443,13 +812,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/api/comarcas/create/",
+									"raw": "{{base_url}}/api/usuarios/create/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"api",
-										"comarcas",
+										"usuarios",
 										"create",
 										""
 									]
@@ -458,23 +827,54 @@
 							"response": []
 						},
 						{
-							"name": "Atualizar_Comarca",
+							"name": "Read_usuario",
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzM5MDc2LCJpYXQiOjE3MzQ3Mzg3NzYsImp0aSI6ImQwNTFkYzllMWFiNTQ2NGQ5OWQxMTYyYTg5ZmUyNWM5IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.0nka0hxt-74sPkWwoEl7H9gv7C8PvvIWnQs7vMU1wSs",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxMzY3LCJpYXQiOjE3MzQ5MjEwNjcsImp0aSI6ImNlZWI3MTFhODY2MzQ1MTJiYzY5YzIzMmUwODRmZWQ5IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.OCevopyNGHdh-AyTsVEzfesDY9YUbozJlFZYQOs5sf0",
 											"type": "string"
 										}
 									]
 								},
-								"method": "PUT",
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/usuarios/02316357024/read/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"usuarios",
+										"02316357024",
+										"read",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update_usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxMzY3LCJpYXQiOjE3MzQ5MjEwNjcsImp0aSI6ImNlZWI3MTFhODY2MzQ1MTJiYzY5YzIzMmUwODRmZWQ5IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.OCevopyNGHdh-AyTsVEzfesDY9YUbozJlFZYQOs5sf0",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":2,\r\n    \"nome\":\"Arroio Grande\"\r\n}",
+									"raw": "{\r\n    \"email\":\"admin@gda.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -482,13 +882,362 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/api/comarcas/2/update/",
+									"raw": "{{base_url}}/api/usuarios/02316357024/update/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"api",
-										"comarcas",
+										"usuarios",
+										"02316357024",
+										"update",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete_usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxMzY3LCJpYXQiOjE3MzQ5MjEwNjcsImp0aSI6ImNlZWI3MTFhODY2MzQ1MTJiYzY5YzIzMmUwODRmZWQ5IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.OCevopyNGHdh-AyTsVEzfesDY9YUbozJlFZYQOs5sf0",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/usuarios/12345678901/delete/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"usuarios",
+										"12345678901",
+										"delete",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Fatos&Subfatos",
+					"item": [
+						{
+							"name": "ListAll_fato",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxNTkyLCJpYXQiOjE3MzQ5MjEyOTIsImp0aSI6ImZkZWM1NGJhZDEzMjRjZWQ4MjkwMjFhNDVhNWViMDU1IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.I9K2xBUADbcJUSUAyUbJHr551sY3Z2Qs_eOyrICoyR4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/fatos/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"fatos",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create_fato",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxNTkyLCJpYXQiOjE3MzQ5MjEyOTIsImp0aSI6ImZkZWM1NGJhZDEzMjRjZWQ4MjkwMjFhNDVhNWViMDU1IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.I9K2xBUADbcJUSUAyUbJHr551sY3Z2Qs_eOyrICoyR4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\":\"poluição\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/fatos/create/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"fatos",
+										"create",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read_fato",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxNTkyLCJpYXQiOjE3MzQ5MjEyOTIsImp0aSI6ImZkZWM1NGJhZDEzMjRjZWQ4MjkwMjFhNDVhNWViMDU1IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.I9K2xBUADbcJUSUAyUbJHr551sY3Z2Qs_eOyrICoyR4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/fatos/1/read/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"fatos",
+										"1",
+										"read",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update_fato",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxNTkyLCJpYXQiOjE3MzQ5MjEyOTIsImp0aSI6ImZkZWM1NGJhZDEzMjRjZWQ4MjkwMjFhNDVhNWViMDU1IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.I9K2xBUADbcJUSUAyUbJHr551sY3Z2Qs_eOyrICoyR4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\":\"Poluição\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/fatos/3/update/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"fatos",
+										"3",
+										"update",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete_fato",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxNTkyLCJpYXQiOjE3MzQ5MjEyOTIsImp0aSI6ImZkZWM1NGJhZDEzMjRjZWQ4MjkwMjFhNDVhNWViMDU1IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.I9K2xBUADbcJUSUAyUbJHr551sY3Z2Qs_eOyrICoyR4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/fatos/2/delete/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"fatos",
+										"2",
+										"delete",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ListAll_subfato",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxNTkyLCJpYXQiOjE3MzQ5MjEyOTIsImp0aSI6ImZkZWM1NGJhZDEzMjRjZWQ4MjkwMjFhNDVhNWViMDU1IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.I9K2xBUADbcJUSUAyUbJHr551sY3Z2Qs_eOyrICoyR4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/fatos/1/subfatos/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"fatos",
+										"1",
+										"subfatos",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create_subfato",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxNTkyLCJpYXQiOjE3MzQ5MjEyOTIsImp0aSI6ImZkZWM1NGJhZDEzMjRjZWQ4MjkwMjFhNDVhNWViMDU1IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.I9K2xBUADbcJUSUAyUbJHr551sY3Z2Qs_eOyrICoyR4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\":\"Pesca ilegal\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/fatos/1/subfatos/create/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"fatos",
+										"1",
+										"subfatos",
+										"create",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read_subfato",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxOTg5LCJpYXQiOjE3MzQ5MjE2ODksImp0aSI6IjhlMzUzMjkyYzllMjQyYmI4MmMzNGZhY2E4MDE1NWNlIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.LgwdHMN64hbNxSpUsVAn-nRp8Ep3Hv5S38CTRnRMyfM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/subfatos/2/read/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"subfatos",
+										"2",
+										"read",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update_subfato",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxOTg5LCJpYXQiOjE3MzQ5MjE2ODksImp0aSI6IjhlMzUzMjkyYzllMjQyYmI4MmMzNGZhY2E4MDE1NWNlIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.LgwdHMN64hbNxSpUsVAn-nRp8Ep3Hv5S38CTRnRMyfM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\":\"Maus-tratos a cães\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/subfatos/2/update/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"subfatos",
 										"2",
 										"update",
 										""
@@ -498,14 +1247,14 @@
 							"response": []
 						},
 						{
-							"name": "Deletar_Comarca",
+							"name": "Delete_subfatos",
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzM5MDc2LCJpYXQiOjE3MzQ3Mzg3NzYsImp0aSI6ImQwNTFkYzllMWFiNTQ2NGQ5OWQxMTYyYTg5ZmUyNWM5IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.0nka0hxt-74sPkWwoEl7H9gv7C8PvvIWnQs7vMU1wSs",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTIxOTg5LCJpYXQiOjE3MzQ5MjE2ODksImp0aSI6IjhlMzUzMjkyYzllMjQyYmI4MmMzNGZhY2E4MDE1NWNlIiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.LgwdHMN64hbNxSpUsVAn-nRp8Ep3Hv5S38CTRnRMyfM",
 											"type": "string"
 										}
 									]
@@ -513,13 +1262,13 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/comarcas/2/delete/",
+									"raw": "{{base_url}}/api/subfatos/2/delete/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"api",
-										"comarcas",
+										"subfatos",
 										"2",
 										"delete",
 										""
@@ -531,7 +1280,7 @@
 					]
 				}
 			],
-			"description": "Scripts para API GDA Django",
+			"description": "Scripts end-point para API GDA Django",
 			"auth": {
 				"type": "bearer"
 			},
@@ -555,129 +1304,6 @@
 							""
 						]
 					}
-				}
-			]
-		},
-		{
-			"name": "HEROKU",
-			"item": [
-				{
-					"name": "Create_municipio",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODUwNzcxLCJpYXQiOjE3MzI4NTA0NzEsImp0aSI6IjRhM2E4MWQ5ZWIyZTRiMTQ5OGQyNDdmYmZiZGNkMmQ3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ktIvbGPJHF63CuvFL4TPwiR-UWxVwOl38q8cQbKgiUg",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "comarca",
-									"value": "1",
-									"type": "text"
-								},
-								{
-									"key": "nome",
-									"value": "Capão do Leão",
-									"type": "text"
-								},
-								{
-									"key": "arquivo",
-									"type": "file",
-									"src": "/C:/Users/Ricar/OneDrive/Documentos/VS_CODE/GDA/gda/municipios/4304663_faces_de_logradouros_2022.json"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{heroku_url}}api/municipios/create",
-							"host": [
-								"{{heroku_url}}api"
-							],
-							"path": [
-								"municipios",
-								"create"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Listar_logradouros",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODUwNzcxLCJpYXQiOjE3MzI4NTA0NzEsImp0aSI6IjRhM2E4MWQ5ZWIyZTRiMTQ5OGQyNDdmYmZiZGNkMmQ3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ktIvbGPJHF63CuvFL4TPwiR-UWxVwOl38q8cQbKgiUg",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{heroku_url}}api/municipios/1/logradouro?q=silva",
-							"host": [
-								"{{heroku_url}}api"
-							],
-							"path": [
-								"municipios",
-								"1",
-								"logradouro"
-							],
-							"query": [
-								{
-									"key": "q",
-									"value": "silva"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Listar_logradouros Copy",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODUwNzcxLCJpYXQiOjE3MzI4NTA0NzEsImp0aSI6IjRhM2E4MWQ5ZWIyZTRiMTQ5OGQyNDdmYmZiZGNkMmQ3IiwiY3BmIjoiMDIzMTYzNTcwMjQifQ.ktIvbGPJHF63CuvFL4TPwiR-UWxVwOl38q8cQbKgiUg",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{heroku_url}}api/municipios/1/logradouro?q=silva",
-							"host": [
-								"{{heroku_url}}api"
-							],
-							"path": [
-								"municipios",
-								"1",
-								"logradouro"
-							],
-							"query": [
-								{
-									"key": "q",
-									"value": "silva"
-								}
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		}

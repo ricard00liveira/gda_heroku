@@ -16,7 +16,7 @@ Um sistema para gerenciamento de denúncias ambientais desenvolvido com Django e
    cd gda_heroku
    ```
 
-2. **Crie um ambiente virtual:**
+2. **Crie um ambiente virtual e ative:**
 
    ```bash
    python -m venv venv
@@ -86,7 +86,7 @@ Um sistema para gerenciamento de denúncias ambientais desenvolvido com Django e
   Permite criar uma nova comarca.
 
 - **Visualizar Comarca**  
-  `GET /api/comarcas/<int:comarca_id>/`  
+  `GET /api/comarcas/<int:comarca_id>/read/`  
   Visualiza os detalhes de uma comarca específica.
 
 - **Atualizar Comarca**  
@@ -108,15 +108,15 @@ Um sistema para gerenciamento de denúncias ambientais desenvolvido com Django e
   Lista todas as denúncias disponíveis.
 
 - **Visualizar Denúncia**  
-  `GET /api/denuncias/read/<int:denuncia_id>/`  
+  `GET /api/denuncias/<int:denuncia_id>/read/`  
   Visualiza os detalhes de uma denúncia específica.
 
 - **Atualizar Denúncia**  
-  `PATCH /api/denuncias/update/<int:denuncia_id>/`  
+  `PATCH /api/denuncias/<int:denuncia_id>/update/`  
   Atualiza uma denúncia específica.
 
 - **Excluir Denúncia**  
-  `DELETE /api/denuncias/delete/<int:denuncia_id>/`  
+  `DELETE /api/denuncias/<int:denuncia_id>/delete/`  
   Exclui uma denúncia específica.
 
 ### Logradouros
@@ -152,7 +152,7 @@ Um sistema para gerenciamento de denúncias ambientais desenvolvido com Django e
   Permite criar um novo município.
 
 - **Visualizar Município**  
-  `GET /api/municipios/<int:municipio_id>/`  
+  `GET /api/municipios/<int:municipio_id>/read/`  
   Visualiza os detalhes de um município específico.
 
 - **Atualizar Município**  
@@ -174,7 +174,7 @@ Um sistema para gerenciamento de denúncias ambientais desenvolvido com Django e
   Permite criar um novo fato.
 
 - **Visualizar Fato**  
-  `GET /api/fatos/<int:fato_id>/`  
+  `GET /api/fatos/<int:fato_id>/read/`  
   Visualiza os detalhes de um fato específico.
 
 - **Atualizar Fato**  
@@ -196,7 +196,7 @@ Um sistema para gerenciamento de denúncias ambientais desenvolvido com Django e
   Permite criar um novo subfato relacionado a um fato específico.
 
 - **Visualizar Subfato**  
-  `GET /api/subfatos/<int:subfato_id>/`  
+  `GET /api/subfatos/<int:subfato_id>/read/`  
   Visualiza os detalhes de um subfato específico.
 
 - **Atualizar Subfato**  
@@ -213,9 +213,9 @@ Um sistema para gerenciamento de denúncias ambientais desenvolvido com Django e
   `GET /api/usuarios/`
 
   - **Parâmetros opcionais de query**:
-    - `q` (string): Permite buscar usuários pelo nome, email ou CPF.  
-       - Deve conter pelo menos 3 caracteres.
-      Lista todos os usuários cadastrados.
+    - `q` (string): Permite buscar usuários pelo nome, email ou CPF.
+      - Deve conter pelo menos 3 caracteres.
+        Lista todos os usuários cadastrados.
 
 - **Criar Usuário**  
   `POST /api/usuarios/create/`  
@@ -301,7 +301,23 @@ Authorization: Bearer {seu_token_de_acesso}
 }
 ```
 
-- Obtendo êxito na inserção do logradouro, podemos inserir uma denúncia através `LOCAL > Denuncias > Create_denuncia`, em `Body > raw` digite o dados da denúncia:
+- Inserido o logradourou, agora iremos inserir fato e subfato para denúncia. `LOCAL > Fatos&Subfatos > Create_fato`:
+
+```bash
+{
+    "nome":"Fauna"
+}
+```
+
+- Em seguida o subfato em `LOCAL > Fatos&Subfatos > Create_subfato`:
+
+```bash
+{
+ "nome":"Animais silvestres em cativeiro ilegal"
+}
+```
+
+- Obtendo êxito na inserção, podemos inserir uma denúncia através `LOCAL > Denuncias > Create_denuncia`, em `Body > raw` digite o dados da denúncia:
 
 **Completa:**
 
@@ -321,7 +337,7 @@ Authorization: Bearer {seu_token_de_acesso}
     "is_deleted": false,                // Define se a denúncia está marcada como excluída (Opcional)
     "infrator": "Nome do infrator",     // Nome do infrator (Opcional)
     "prioridade": "media",              // Prioridade da denúncia (Opcional)
-    "localizacao": {                    // Coordenadas (em caso de uso com JSONField) (Opcional)
+    "localizacao": {                    // Coordenadas (JSONField) (Opcional)
         "latitude": -23.55052,
         "longitude": -46.633308
     }
@@ -341,4 +357,6 @@ Authorization: Bearer {seu_token_de_acesso}
 }
 ```
 
-## Não finalizado! (working...)
+## 👏 Êxito!
+
+##### Para visualizar a denúncia, `LOCAL > Denuncias > Read_denuncia`.

@@ -28,7 +28,7 @@ def listar_usuarios(request):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])  # Permite que qualquer pessoa crie
+@permission_classes([AllowAny])
 def criar_usuario(request):
     data = request.data.copy()
 
@@ -37,12 +37,17 @@ def criar_usuario(request):
 
     serializer = UserSerializer(data=data)
     if serializer.is_valid():
-        serializer.save()
+        user = serializer.save()
+        password = data.get('password')
+        if password:
+            user.set_password(password)
+            user.save()
         return Response({
             'message': 'Conta criada com sucesso.',
             'usuario': serializer.data,
         }, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
