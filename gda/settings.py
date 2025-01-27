@@ -61,9 +61,10 @@ MIDDLEWARE = [
     # Novos
     'corsheaders.middleware.CorsMiddleware',
 ]
-
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'http://localhost:8080',
     'https://gda-front.netlify.app',
     'https://gda-app.xyz',
     'https://back.gda-app.xyz'
