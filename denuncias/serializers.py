@@ -16,7 +16,6 @@ class DenunciaSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         request = self.context.get('request')
         if request and request.user.tipo_usuario not in ['adm', 'operador']:
-            representation.pop('data', None)
             representation.pop('responsavel', None)
         return representation
 
