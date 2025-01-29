@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from ..models import Logradouro, Municipio
 from ..serializers.logradouro_serializers import LogradouroSerializer
+from django.shortcuts import get_object_or_404
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
