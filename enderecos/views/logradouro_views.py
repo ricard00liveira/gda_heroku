@@ -8,28 +8,19 @@ from ..serializers.logradouro_serializers import LogradouroSerializer
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listar_logradouros(request, municipio_id):
-    try:
-        municipio = Municipio.objects.get(id=municipio_id)
-    except Municipio.DoesNotExist:
-        return Response({'error': 'Município não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+    municipio = get_object_or_404(Municipio, id=municipio_id)
 
     query = request.query_params.get('q', '').strip()
 
     if query:
         if len(query) < 3:
             return Response({'error': 'A pesquisa deve conter pelo menos 3 caracteres.'}, status=status.HTTP_400_BAD_REQUEST)
-        
         logradouros = Logradouro.objects.filter(nome__icontains=query, cidade=municipio)
-        serializer = LogradouroSerializer(logradouros, many=True)
-        return Response({
-            'message': f'Encontrados {logradouros.count()} logradouro(s) com a pesquisa "{query}".',
-            'logradouros': serializer.data
-        }, status=status.HTTP_200_OK)
     else:
-        total_logradouros = Logradouro.objects.filter(cidade=municipio).count()
-        return Response({
-            'message': f'O município {municipio.nome} possui {total_logradouros} logradouro(s) no total.'
-        }, status=status.HTTP_200_OK)
+        logradouros = Logradouro.objects.filter(cidade=municipio)
+
+    serializer = LogradouroSerializer(logradouros, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
