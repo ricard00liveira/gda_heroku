@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from django.utils import timezone
+import uuid
 
 class UserManager(BaseUserManager):
     def create_user(self, cpf, email, password=None, **extra_fields):
@@ -37,7 +39,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     self_registration = models.BooleanField(default=False)
-
+    reset_token = models.CharField(max_length=128, blank=True, null=True)
+    reset_token_created = models.DateTimeField(blank=True, null=True)
     objects = UserManager()
 
     USERNAME_FIELD = 'cpf'
@@ -45,3 +48,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.nome} - ({self.tipo_usuario})"
+    
+    def generate_reset_token(self):
+        self.reset_token = uuid.uuid4().hex
+        self.reset_token_created = timezone.now()
+        self.save()

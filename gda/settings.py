@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
     # Novos
+    'django_extensions',
     'rest_framework',
     'corsheaders',  # Permitir requisições do front-end
     'usuarios', # Gerencia usuarios
@@ -108,11 +110,11 @@ WSGI_APPLICATION = "gda.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': config('DB_NAME', default='gda_app'),
         'USER': config('DB_USER', default='usuario'),
         'PASSWORD': config('DB_PASSWORD', default='1234'),
-        'HOST': config('DB_HOST', default='localhost'),
+        'HOST': config('DB_HOST', default='postgis_gda'),
     }
 }
 

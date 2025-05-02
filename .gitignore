@@ -3,3 +3,6 @@ DEPLOY.txt
 .env
 .env.prod
 /municipios/
+*.zip
+der.png
+der.dot
