@@ -162,3 +162,20 @@ def redefinir_senha(request):
     user.save()
 
     return Response({"message": "Senha redefinida com sucesso."}, status=200)
+
+# CONSULTAR TOKEN
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def verificar_token_recuperacao(request, token):
+    try:
+        user = User.objects.get(reset_token=token)
+    except User.DoesNotExist:
+        return Response({"error": "Token inválido ou expirado."}, status=404)
+
+    from datetime import timedelta
+    from django.utils import timezone
+
+    if user.reset_token_created and timezone.now() - user.reset_token_created > timedelta(hours=1):
+        return Response({"error": "Token expirado."}, status=400)
+
+    return Response({"cpf": user.cpf})

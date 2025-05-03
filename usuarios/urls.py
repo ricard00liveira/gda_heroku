@@ -11,4 +11,5 @@ urlpatterns = [
     path('usuarios/<str:cpf>/delete/', deletar_usuario, name='deletar_usuario'),
     path('usuarios/recuperar-senha/', recuperar_senha, name='recuperar_senha'),
     path("usuarios/redefinir-senha/", redefinir_senha, name='redefinir_senha'),
+    path("usuarios/verificar-token/<str:token>/", verificar_token_recuperacao),
 ]
