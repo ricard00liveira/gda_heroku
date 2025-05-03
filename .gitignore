@@ -6,3 +6,4 @@ DEPLOY.txt
 *.zip
 der.png
 der.dot
+/venv/

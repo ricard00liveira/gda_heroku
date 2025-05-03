@@ -1,11 +1,14 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import api_view, permission_classes
+from django.core.files.base import ContentFile
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
 from .models import User
 from .serializers import UserSerializer
 from django.utils import timezone
 import uuid
+import os
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdminUser])
@@ -66,14 +69,28 @@ def visualizar_usuario(request, cpf):
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
 def atualizar_usuario(request, cpf):
     try:
         usuario = User.objects.get(cpf=cpf)
     except User.DoesNotExist:
         return Response({'error': 'Usuário não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
 
-    if not (request.user.tipo_usuario == 'adm' or request.user == usuario):
-        return Response({'error': 'Permissão negada.'}, status=status.HTTP_403_FORBIDDEN)
+    imagem_nova = request.FILES.get('imagem_perfil', None)
+
+    if imagem_nova:
+        # Apagar imagem antiga (se existir)
+        if usuario.imagem_perfil:
+            usuario.imagem_perfil.delete(save=False)
+
+        # Gerar nome único com UUID
+        ext = os.path.splitext(imagem_nova.name)[1]  # ex: .jpg
+        nome_unico = f"{uuid.uuid4().hex}{ext}"
+
+        # Atribuir o novo nome ao arquivo
+        imagem_nova.name = nome_unico
+        request._mutable = True  # garantir edição do request.data
+        request.data['imagem_perfil'] = imagem_nova
 
     serializer = UserSerializer(usuario, data=request.data, partial=True)
     if serializer.is_valid():
@@ -103,9 +120,15 @@ def user_profile(request):
         "email": user.email,
         "nome": user.nome,
         "tipo": user.tipo_usuario,
+        "imagem_perfil_url": user.imagem_perfil.url if user.imagem_perfil else None
     })
 
-# RECUPERAR SENHA
+# # RECUPERAR SENHA
+import base64
+from email.mime.text import MIMEText
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def recuperar_senha(request):
@@ -115,24 +138,94 @@ def recuperar_senha(request):
         return Response({"error": "Informe o CPF ou e-mail."}, status=400)
 
     try:
-        if "@" in identificador:
-            user = User.objects.get(email=identificador)
-        else:
-            user = User.objects.get(cpf=identificador)
+        user = User.objects.get(email=identificador) if "@" in identificador else User.objects.get(cpf=identificador)
     except User.DoesNotExist:
         return Response({"error": "Usuário não encontrado."}, status=404)
 
-    # Gerar token único
+    # Gerar token
     user.reset_token = uuid.uuid4().hex
     user.reset_token_created = timezone.now()
     user.save()
 
-    # Simular envio de e-mail (substituir pelo send_mail real em produção)
-    print(f"[DEBUG] Link de redefinição: https://seusite.com/redefinir-senha/{user.reset_token}")
+    # Carregar credenciais do token.json
+    SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
+    creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    service = build('gmail', 'v1', credentials=creds)
+
+    # Preparar conteúdo do e-mail
+    BASE_URL = "http://localhost:8080/"
+    reset_link = f"{BASE_URL}renew-password"
+    corpo_email = f"""
+<html>
+  <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; color: #333;">
+    <div style="max-width: 600px; margin: auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+      <h2 style="color: #2c3e50;">Olá, {user.nome},</h2>
+
+      <p>Recebemos uma solicitação para redefinir sua senha no sistema <strong>GDA</strong>.</p>
+
+      <p>
+        Clique no link abaixo para definir uma nova senha:<br>
+        <a href="{reset_link}" style="color: #1a73e8; word-break: break-all;">{reset_link}</a>
+      </p>
+
+      <p>
+        <strong>Use o código de verificação abaixo:</strong><br>
+        <span style="display: inline-block; font-size: 1.5em; font-weight: bold; color: #d32f2f; margin: 10px 0;">{user.reset_token}</span>
+      </p>
+
+      <p style="color: #777;">
+        ⚠️ O código acima expira em <strong>1 hora</strong>. Solicite outro código se necessário.
+      </p>
+
+      <p>Se você não solicitou essa alteração, ignore este e-mail.</p>
+
+      <p style="margin-top: 30px;">Atenciosamente,<br/>Equipe do <strong>Sistema GDA</strong>.</p>
+    </div>
+  </body>
+</html>
+"""
+    message = MIMEText(corpo_email, 'html')
+    message['to'] = user.email
+    message['subject'] = "Redefinição de Senha - GDA"
+    raw = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+
+    try:
+        enviado = service.users().messages().send(userId="me", body=raw).execute()
+        print(f"E-mail enviado. ID: {enviado['id']}")
+    except Exception as e:
+        return Response({"error": f"Erro ao enviar e-mail: {str(e)}"}, status=500)
 
     return Response({
-        "message": "Se o usuário existir, um link de redefinição foi enviado para o e-mail cadastrado." + str({user.reset_token})
+        "message": "Se o usuário existir, um link foi enviado para o e-mail cadastrado."
     }, status=200)
+    
+# @api_view(['POST'])
+# @permission_classes([AllowAny])
+# def recuperar_senha(request):
+#     identificador = request.data.get("identificador")
+
+#     if not identificador:
+#         return Response({"error": "Informe o CPF ou e-mail."}, status=400)
+
+#     try:
+#         if "@" in identificador:
+#             user = User.objects.get(email=identificador)
+#         else:
+#             user = User.objects.get(cpf=identificador)
+#     except User.DoesNotExist:
+#         return Response({"error": "Usuário não encontrado."}, status=404)
+
+#     # Gerar token único
+#     user.reset_token = uuid.uuid4().hex
+#     user.reset_token_created = timezone.now()
+#     user.save()
+
+#     # Simular envio de e-mail (substituir pelo send_mail real em produção)
+#     print(f"[DEBUG] Link de redefinição: https://seusite.com/redefinir-senha/{user.reset_token}")
+
+#     return Response({
+#         "message": "Se o usuário existir, um link de redefinição foi enviado para o e-mail cadastrado." + str({user.reset_token})
+#     }, status=200)
     
  # REDEFINIR SENHA   
 @api_view(['POST'])

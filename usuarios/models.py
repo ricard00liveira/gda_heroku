@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.utils import timezone
 import uuid
+from django.core.validators import FileExtensionValidator
 
 class UserManager(BaseUserManager):
     def create_user(self, cpf, email, password=None, **extra_fields):
@@ -41,6 +42,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     self_registration = models.BooleanField(default=False)
     reset_token = models.CharField(max_length=128, blank=True, null=True)
     reset_token_created = models.DateTimeField(blank=True, null=True)
+    ativo = models.BooleanField(default=False, verbose_name="Conta Ativada")
+    imagem_perfil = models.ImageField(
+        upload_to="usuarios/perfil/",
+        blank=True,
+        null=True,
+        verbose_name="Imagem de Perfil",
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])]
+    )
+    
     objects = UserManager()
 
     USERNAME_FIELD = 'cpf'

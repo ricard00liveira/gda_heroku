@@ -6,8 +6,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['cpf', 'email', 'nome', 'telefone', 'tipo_usuario', 'password']
-
+        fields = ['cpf', 'email', 'nome', 'telefone', 'tipo_usuario', 'password','ativo', 'imagem_perfil']
+        read_only_fields = ['cpf']
+        
     def create(self, validated_data):
         # Remove o password dos dados validados e usa o método `create_user` do modelo
         password = validated_data.pop('password', None)

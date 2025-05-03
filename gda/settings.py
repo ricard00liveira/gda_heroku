@@ -17,6 +17,14 @@ import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STORAGES = {
+'default': {
+    'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+},
+'staticfiles': {
+    'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+},
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -49,6 +57,7 @@ INSTALLED_APPS = [
     'denuncias',  # Gerencia denúncias ambientais
     'enderecos', # Gerencia municipios, comarcas e logradouros
     'fatosesub', # Gerencia fatos e subfatos
+    'storages', # Para o S3 AWS
 ]
 
 MIDDLEWARE = [
@@ -181,5 +190,10 @@ SIMPLE_JWT = {
     'SIGNING_KEY': SECRET_KEY,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+AWS_ACCESS_KEY_ID = 'AKIA5TUCYBFPNEWBQFBL'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'gda-app'
+AWS_S3_REGION_NAME = 'us-east-2'
+AWS_QUERYSTRING_AUTH = False 
 
 django_heroku.settings(locals())
