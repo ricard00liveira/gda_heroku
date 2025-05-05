@@ -123,7 +123,7 @@ def user_profile(request):
         "imagem_perfil_url": user.imagem_perfil.url if user.imagem_perfil else None
     })
 
-# # RECUPERAR SENHA
+# RECUPERAR SENHA
 import base64
 from email.mime.text import MIMEText
 from google.oauth2.credentials import Credentials
@@ -159,6 +159,11 @@ def recuperar_senha(request):
 <html>
   <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; color: #333;">
     <div style="max-width: 600px; margin: auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://gda-app.s3.us-east-2.amazonaws.com/app/icon_gda.png" alt="Logo GDA" style="max-width: 120px; height: auto;" />
+      </div>
+
       <h2 style="color: #2c3e50;">Olá, {user.nome},</h2>
 
       <p>Recebemos uma solicitação para redefinir sua senha no sistema <strong>GDA</strong>.</p>
@@ -183,6 +188,7 @@ def recuperar_senha(request):
     </div>
   </body>
 </html>
+
 """
     message = MIMEText(corpo_email, 'html')
     message['to'] = user.email
