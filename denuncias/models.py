@@ -6,6 +6,10 @@ from enderecos.models import Municipio
 from enderecos.models import Logradouro
 from usuarios.models import User
 from fatosesub.models import Fato, Subfato
+from django.contrib.gis.db import models as gis_models
+import uuid
+import os
+from django.core.validators import FileExtensionValidator
 
 class Denuncia(models.Model):
     numero = models.AutoField(primary_key=True)
@@ -30,8 +34,20 @@ class Denuncia(models.Model):
         max_length=10, verbose_name="Numeral", blank=True, null=True)
     ponto_referencia = models.CharField(
         max_length=255, verbose_name="Ponto de Referência", blank=True, null=True)
-    status = models.CharField(max_length=20, choices=[('analise', 'Em análise'), ('fila', 'Aguardando atendimento'), (
-        'concluida', 'Atendimento concluído'), ('negada', 'Denúncia rejeitada')], default='analise')
+    STATUS_CHOICES = [
+        ('analise', 'Em análise'),
+        ('fila', 'Aguardando atendimento'),
+        ('atendimento', 'Em atendimento'),
+        ('concluida', 'Atendimento concluído'),
+        ('negada', 'Denúncia rejeitada'),
+        ]
+    status = models.CharField(
+    max_length=20,
+    choices=STATUS_CHOICES,
+    default='analise',
+    db_index=True,
+    verbose_name="Status da denúncia"
+)
     municipio = models.ForeignKey(
         Municipio,
         on_delete=models.SET_NULL,
@@ -70,22 +86,75 @@ class Denuncia(models.Model):
     default='baixa',
     verbose_name="Prioridade"
 )
-    localizacao = models.JSONField(
-        verbose_name="Coordenada geográfica (GeoJSON)",
+    localizacao = gis_models.PointField(
+        geography=True,
+        verbose_name="Localização geográfica (latitude/longitude)",
         null=True,
         blank=True
     )
+    aprovada = models.BooleanField(
+    default=False,
+    db_index=True,
+    verbose_name="Aprovada por autoridade"
+)
 
     def __str__(self):
         return f'Denuncia {self.numero} - {self.municipio}'
     
 class StatusHistorico(models.Model):
-    denuncia = models.ForeignKey(Denuncia, on_delete=models.CASCADE, related_name='historico_status')
-    status = models.CharField(max_length=20)
-    data_alteracao = models.DateTimeField(auto_now_add=True)
+    denuncia = models.ForeignKey(
+        Denuncia,
+        on_delete=models.CASCADE,
+        related_name='historico_status',
+        verbose_name="Denúncia"
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=Denuncia.STATUS_CHOICES,
+        verbose_name="Status"
+    )
+    data_alteracao = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Data da alteração"
+    )
+
+    class Meta:
+        ordering = ['-data_alteracao']
+
+    def __str__(self):
+        return f"Status {self.status} em {self.data_alteracao.strftime('%d/%m/%Y %H:%M')}"
+
+
+def anexo_upload_path(instance, filename):
+    ext = os.path.splitext(filename)[1]
+    nome = f"{uuid.uuid4().hex}{ext}"
+    return f"anexos/denuncia_{instance.denuncia.numero}/{nome}"
 
 class Anexo(models.Model):
-    denuncia = models.ForeignKey(Denuncia, on_delete=models.CASCADE, related_name='anexos')
-    arquivo = models.FileField(upload_to='anexos/')
-    descricao = models.CharField(max_length=255, blank=True, null=True)
-    data_upload = models.DateTimeField(auto_now_add=True)
+    denuncia = models.ForeignKey(
+        Denuncia,
+        on_delete=models.CASCADE,
+        related_name='anexos',
+        verbose_name="Denúncia"
+    )
+    arquivo = models.FileField(
+        upload_to=anexo_upload_path,
+        verbose_name="Arquivo",
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'mp4'])]
+    )
+    descricao = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Descrição"
+    )
+    data_upload = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Data do envio"
+    )
+
+    class Meta:
+        ordering = ['-data_upload']
+
+    def __str__(self):
+        return f"Anexo {self.id} da denúncia {self.denuncia.numero}"

@@ -1,4 +1,4 @@
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 
@@ -60,3 +60,20 @@ def set_subfato_name_on_delete(sender, instance, **kwargs):
     for denuncia in denuncias:
         denuncia.subfato = instance.nome
         denuncia.save()
+
+@receiver(pre_save, sender=Denuncia)
+def registrar_status_historico(sender, instance, **kwargs):
+    if not instance.pk:
+        # Denúncia nova, ainda sem histórico
+        return
+
+    try:
+        denuncia_antiga = Denuncia.objects.get(pk=instance.pk)
+    except Denuncia.DoesNotExist:
+        return
+
+    if denuncia_antiga.status != instance.status:
+        StatusHistorico.objects.create(
+            denuncia=instance,
+            status=instance.status
+        )

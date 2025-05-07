@@ -9,4 +9,6 @@ urlpatterns = [
     path('denuncias/<int:denuncia_id>/update/', views.editar_denuncia, name='editar_denuncia'),
     path('denuncias/<int:denuncia_id>/delete/', views.delete_denuncia, name='delete_denuncia'),
 
+    # Upload anexos
+    path('denuncias/anexos/upload/', views.upload_anexo, name='upload_anexo'),
 ]
