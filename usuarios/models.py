@@ -50,6 +50,29 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name="Imagem de Perfil",
         validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])]
     )
+    # Configurações do usuário
+    conf_tema = models.CharField(
+        max_length=20,
+        choices=[('light', 'Claro'), ('dark', 'Escuro')],
+        default='light',
+        verbose_name="Tema preferido"
+    )
+
+    conf_not_email = models.BooleanField(
+        default=False,
+        verbose_name="Receber notificações por e-mail"
+    )
+
+    conf_not_push = models.BooleanField(
+        default=False,
+        verbose_name="Receber notificações push"
+    )
+
+    conf_not_newdenun = models.BooleanField(
+        default=False,
+        verbose_name="Notificar novas denúncias"
+    )
+
     
     objects = UserManager()
 

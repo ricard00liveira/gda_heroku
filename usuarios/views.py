@@ -3,7 +3,7 @@ from django.core.files.base import ContentFile
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from .models import User
 from .serializers import UserSerializer
 from django.utils import timezone
@@ -61,15 +61,26 @@ def visualizar_usuario(request, cpf):
     except User.DoesNotExist:
         return Response({'error': 'Usuário não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
 
+    # Apenas o próprio usuário ou administradores podem visualizar
     if not (request.user.tipo_usuario == 'adm' or request.user == usuario):
         return Response({'error': 'Permissão negada.'}, status=status.HTTP_403_FORBIDDEN)
 
-    serializer = UserSerializer(usuario)
-    return Response(serializer.data)
+    from denuncias.models import Denuncia
+    from denuncias.serializers import DenunciaSerializer
+
+    denuncias = Denuncia.objects.filter(denunciante=usuario).order_by('-data')
+    denuncias_serializadas = DenunciaSerializer(denuncias, many=True).data
+
+    usuario_serializado = UserSerializer(usuario).data
+
+    return Response({
+        'usuario': usuario_serializado,
+        'denuncias': denuncias_serializadas
+    })
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
-@parser_classes([MultiPartParser, FormParser])
+@parser_classes([MultiPartParser, FormParser, JSONParser])
 def atualizar_usuario(request, cpf):
     try:
         usuario = User.objects.get(cpf=cpf)
@@ -120,7 +131,11 @@ def user_profile(request):
         "email": user.email,
         "nome": user.nome,
         "tipo": user.tipo_usuario,
-        "imagem_perfil_url": user.imagem_perfil.url if user.imagem_perfil else None
+        "imagem_perfil_url": user.imagem_perfil.url if user.imagem_perfil else None,
+        "conf_tema": user.conf_tema,
+        "conf_notEmail": user.conf_not_email,
+        "conf_notPush": user.conf_not_push,
+        "conf_notNewDenuncia": user.conf_not_newdenun,
     })
 
 # RECUPERAR SENHA
