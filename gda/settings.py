@@ -195,5 +195,8 @@ AWS_SECRET_ACCESS_KEY = 'mAIxqFh10E4H8fhkjEBSDdRVJwXRkct+7fdIs7qt'
 AWS_STORAGE_BUCKET_NAME = 'gda-app'
 AWS_S3_REGION_NAME = 'us-east-2'
 AWS_QUERYSTRING_AUTH = False 
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "public, max-age=31536000",
+}
 
 django_heroku.settings(locals())

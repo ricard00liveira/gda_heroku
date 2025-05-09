@@ -35,7 +35,7 @@ def listar_usuarios(request):
 @permission_classes([AllowAny])
 def criar_usuario(request):
     data = request.data.copy()
-
+    
     if not request.user.is_authenticated:
         data['tipo_usuario'] = 'comum'
 
@@ -102,6 +102,14 @@ def atualizar_usuario(request, cpf):
         imagem_nova.name = nome_unico
         request._mutable = True  # garantir edição do request.data
         request.data['imagem_perfil'] = imagem_nova
+        
+    email = request.data.get('email')
+    if email and email != usuario.email:
+        if User.objects.filter(email=email).exclude(cpf=usuario.cpf).exists():
+            return Response(
+                {'error': 'Erro no e-mail, escolha outro.'},
+                status=status.HTTP_409_CONFLICT
+            )
 
     serializer = UserSerializer(usuario, data=request.data, partial=True)
     if serializer.is_valid():
