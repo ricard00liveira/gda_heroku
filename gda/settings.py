@@ -14,30 +14,33 @@ from pathlib import Path
 import os
 from decouple import config
 import django_heroku
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 STORAGES = {
-'default': {
-    'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
-},
-'staticfiles': {
-    'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
-},
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
 }
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = True
 
-#ALLOWED_HOSTS = []
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]").split(",")
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]").split(
+    ","
+)
 
 # Application definition
 
@@ -50,19 +53,19 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     # Novos
-    'django_extensions',
-    'rest_framework',
-    'corsheaders',  # Permitir requisições do front-end
-    'usuarios', # Gerencia usuarios
-    'denuncias',  # Gerencia denúncias ambientais
-    'enderecos', # Gerencia municipios, comarcas e logradouros
-    'fatosesub', # Gerencia fatos e subfatos
-    'storages', # Para o S3 AWS
+    "django_extensions",
+    "rest_framework",
+    "corsheaders",  # Permitir requisições do front-end
+    "usuarios",  # Gerencia usuarios
+    "denuncias",  # Gerencia denúncias ambientais
+    "enderecos",  # Gerencia municipios, comarcas e logradouros
+    "fatosesub",  # Gerencia fatos e subfatos
+    "storages",  # Para o S3 AWS
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -70,26 +73,26 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Novos
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://localhost:8080',
-    'https://gda-front.netlify.app',
-    'https://gda-app.xyz',
-    'https://back.gda-app.xyz'
+    "http://localhost:3000",
+    "http://localhost:8080",
+    "https://gda-front.netlify.app",
+    "https://gda-app.xyz",
+    "https://back.gda-app.xyz",
     # URL do frontend React
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    "DEFAULT_AUTHENTICATION_CLASSES": [
         #'rest_framework.authentication.SessionAuthentication',
         #'rest_framework.authentication.BasicAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
         #'rest_framework.permissions.AllowAny',
     ],
 }
@@ -118,16 +121,16 @@ WSGI_APPLICATION = "gda.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': config('DB_NAME', default='gda_app'),
-        'USER': config('DB_USER', default='usuario'),
-        'PASSWORD': config('DB_PASSWORD', default='1234'),
-        'HOST': config('DB_HOST', default='postgis_gda'),
+    "default": {
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": config("DB_NAME", default="gda_app"),
+        "USER": config("DB_USER", default="usuario"),
+        "PASSWORD": config("DB_PASSWORD", default="1234"),
+        "HOST": config("DB_HOST", default="postgis_gda"),
     }
 }
 
-APPEND_SLASH = False # Não adicionar barra no final da URL
+APPEND_SLASH = False  # Não adicionar barra no final da URL
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -164,8 +167,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
@@ -173,28 +176,30 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = 'usuarios.User'
+AUTH_USER_MODEL = "usuarios.User"
 
 # JWT use CPF like ID!
 from rest_framework_simplejwt.settings import api_settings
-api_settings.USER_ID_FIELD = 'cpf'
-api_settings.USER_ID_CLAIM = 'cpf'
+
+api_settings.USER_ID_FIELD = "cpf"
+api_settings.USER_ID_CLAIM = "cpf"
 
 from datetime import timedelta
+
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
-    'AUTH_HEADER_TYPES': ('Bearer',),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
-AWS_ACCESS_KEY_ID = 'AKIA5TUCYBFPNEWBQFBL'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'gda-app'
-AWS_S3_REGION_NAME = 'us-east-2'
-AWS_QUERYSTRING_AUTH = False 
+AWS_ACCESS_KEY_ID = "AKIA5TUCYBFPNEWBQFBL"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "gda-app"
+AWS_S3_REGION_NAME = "us-east-2"
+AWS_QUERYSTRING_AUTH = False
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "public, max-age=31536000",
 }
