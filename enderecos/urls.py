@@ -63,4 +63,5 @@ urlpatterns = [
         normalizar_logradouros_ibge,
         name="normalizar_logradouros_ibge",
     ),
+    path("logcor/<int:pk>/geojson/", logcor_geojson, name="logcor_geojson"),
 ]

@@ -2,10 +2,13 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework.pagination import PageNumberPagination
-from ..models import Logradouro, Municipio, LogCor as TrechoLogradouro
-from ..serializers.logradouro_serializers import LogradouroSerializer
+from ..models import Logradouro, Municipio, LogCor
+from ..serializers.logradouro_serializers import (
+    LogradouroSerializer,
+    LogCorGeoJSONSerializer,
+)
 from django.shortcuts import get_object_or_404
 from django.contrib.gis.geos import LineString, MultiLineString
 from django.db import transaction
@@ -17,7 +20,7 @@ import os
 
 # BUSCAR TODOS LOGRADOUROS POR UM MUNICIPIO (PAGINADO)
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def listar_logradouros(request, municipio_id):
     municipio = get_object_or_404(Municipio, id=municipio_id)
 
@@ -165,7 +168,7 @@ def importar_logradouros_json(request, municipio_id):
                     trecho_existente.trecho = multi
                     trecho_existente.save()
                 else:
-                    TrechoLogradouro.objects.create(logradouro=logradouro, trecho=multi)
+                    LogCor.objects.create(logradouro=logradouro, trecho=multi)
                 geometrias_atualizadas += 1
 
     return Response(
@@ -239,3 +242,12 @@ def normalizar_logradouros_ibge(request):
         },
         status=200,
     )
+
+
+# EXPORTAR LOGRADOUROS PARA GEOJSON
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def logcor_geojson(request, pk):
+    logcor = get_object_or_404(LogCor, logradouro__id=pk)
+    serializer = LogCorGeoJSONSerializer(logcor)
+    return Response(serializer.data)

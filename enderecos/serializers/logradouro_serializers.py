@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from ..models import Logradouro
+from ..models import Logradouro, LogCor
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 
 class LogradouroSerializer(serializers.ModelSerializer):
@@ -26,3 +27,14 @@ class LogradouroSerializer(serializers.ModelSerializer):
                 )
 
         return attrs
+
+
+class LogCorGeoJSONSerializer(GeoFeatureModelSerializer):
+    logradouro_nome = serializers.CharField(source="logradouro.nome", read_only=True)
+    bairro = serializers.CharField(source="logradouro.bairro", read_only=True)
+    cidade_id = serializers.IntegerField(source="logradouro.cidade.id", read_only=True)
+
+    class Meta:
+        model = LogCor
+        geo_field = "trecho"
+        fields = ("id", "logradouro_nome", "bairro", "cidade_id")

@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # Novos
     "django_extensions",
     "rest_framework",
+    "rest_framework_gis",  # Para o GeoDjango
     "corsheaders",  # Permitir requisições do front-end
     "usuarios",  # Gerencia usuarios
     "denuncias",  # Gerencia denúncias ambientais
