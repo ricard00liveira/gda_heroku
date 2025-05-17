@@ -8,6 +8,8 @@ from usuarios.models import User
 from .serializers import AnexoSerializer
 from .models import Denuncia, Anexo
 from rest_framework.parsers import MultiPartParser, FormParser
+import openai
+import os
 
 
 class DenunciaViewSet(viewsets.ModelViewSet):
@@ -199,3 +201,44 @@ def criar_denuncia_anonima(request):
             status=201,
         )
     return Response(serializer.errors, status=400)
+
+
+# TRANSCRICÃO DE AUDIO
+openai.api_key = "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"
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+@parser_classes([MultiPartParser, FormParser])
+def transcrever_audio(request):
+    audio_file = request.FILES.get("audio")
+    if not audio_file:
+        return Response({"error": "Nenhum arquivo de áudio foi enviado."}, status=400)
+
+    try:
+        # Convertemos o arquivo em uma tupla: (nome, conteúdo, tipo MIME)
+        audio_tuple = (audio_file.name, audio_file.read(), audio_file.content_type)
+
+        # Transcrição com Whisper
+        transcription = openai.audio.transcriptions.create(
+            model="whisper-1", file=audio_tuple
+        )
+        texto_transcrito = transcription.text
+
+        # Refinamento com GPT-4
+        chat = openai.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Você é um assistente que melhora e organiza relatos ambientais. Não invente, apenas corrija gramática, clareza e fluidez do texto transcrito. Só responda com o texto corrigido. Até 2000 caracteres, caso contrário, resuma. Seja imparcial. Não adicione informações ou opiniões pessoais. Não use emojis ou formatação especial. Apenas o texto corrigido.",
+                },
+                {"role": "user", "content": texto_transcrito},
+            ],
+        )
+        texto_final = chat.choices[0].message.content.strip()
+
+        return Response({"transcricao": texto_transcrito, "texto_final": texto_final})
+
+    except Exception as e:
+        return Response({"error": f"Erro ao processar o áudio: {str(e)}"}, status=500)

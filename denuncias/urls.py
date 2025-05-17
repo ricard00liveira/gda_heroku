@@ -26,4 +26,6 @@ urlpatterns = [
     ),
     # Upload anexos
     path("denuncias/anexos/upload/", views.upload_anexo, name="upload_anexo"),
+    # Transcrição de áudio
+    path("denuncias/transcrever-audio/", transcrever_audio, name="transcrever-audio"),
 ]
