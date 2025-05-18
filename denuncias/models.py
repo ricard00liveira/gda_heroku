@@ -115,6 +115,14 @@ class Denuncia(models.Model):
     aprovada = models.BooleanField(
         default=False, db_index=True, verbose_name="Aprovada por autoridade"
     )
+    denuncia_ref = models.ForeignKey(
+        "self",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="referencias",
+        verbose_name="Denúncia relacionada",
+    )
 
     def __str__(self):
         return f"Denuncia {self.numero} - {self.municipio}"

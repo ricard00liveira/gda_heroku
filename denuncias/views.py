@@ -7,7 +7,7 @@ from enderecos.models import Municipio
 from usuarios.models import User
 from .serializers import AnexoSerializer
 from .models import Denuncia, Anexo
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 import openai
 import os
 
@@ -216,22 +216,17 @@ def transcrever_audio(request):
         return Response({"error": "Nenhum arquivo de áudio foi enviado."}, status=400)
 
     try:
-        # Convertemos o arquivo em uma tupla: (nome, conteúdo, tipo MIME)
         audio_tuple = (audio_file.name, audio_file.read(), audio_file.content_type)
-
-        # Transcrição com Whisper
         transcription = openai.audio.transcriptions.create(
             model="whisper-1", file=audio_tuple
         )
         texto_transcrito = transcription.text
-
-        # Refinamento com GPT-4
         chat = openai.chat.completions.create(
             model="gpt-4",
             messages=[
                 {
                     "role": "system",
-                    "content": "Você é um assistente que melhora e organiza relatos ambientais. Não invente, apenas corrija gramática, clareza e fluidez do texto transcrito. Só responda com o texto corrigido. Até 2000 caracteres, caso contrário, resuma. Seja imparcial. Não adicione informações ou opiniões pessoais. Não use emojis ou formatação especial. Apenas o texto corrigido.",
+                    "content": "Você é um assistente que melhora e organiza relatos ambientais. Não invente, apenas corrija gramática, clareza e fluidez do texto transcrito. Só responda com o texto corrigido. Até 2000 caracteres, caso contrário, resuma. Seja imparcial. Não adicione informações ou opiniões pessoais. Não use emojis ou formatação especial. Apenas o texto corrigido. Caso o trecho transcrito não faça sentido como uma denuncia ambiental ou não descreva fatos semelhantes a uma, retorne apenas a palavra 'irrelevante'.",
                 },
                 {"role": "user", "content": texto_transcrito},
             ],
@@ -242,3 +237,41 @@ def transcrever_audio(request):
 
     except Exception as e:
         return Response({"error": f"Erro ao processar o áudio: {str(e)}"}, status=500)
+
+
+# VALIDAÇÃO DE HISTÓRICO
+@api_view(["POST"])
+@permission_classes([AllowAny])
+@parser_classes([JSONParser])
+def validar_historico(request):
+    texto = request.data.get("historico", "").strip()
+
+    if not texto:
+        return Response({"error": "Texto do histórico não fornecido."}, status=400)
+
+    try:
+        chat = openai.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "Você é um classificador que identifica se um texto descreve ou não uma denúncia ambiental. "
+                        "Analise apenas o conteúdo fornecido. Se for uma descrição plausível de um fato ambiental como desmatamento, poluição, maus-tratos à fauna, descarte irregular de resíduos, entre outros, retorne 'valido'. "
+                        "Caso o texto esteja incompleto, irrelevante ou não tenha relação com crimes ou irregularidades ambientais, retorne 'irrelevante'. "
+                        "Apenas retorne 'valido' ou 'irrelevante', sem explicações adicionais."
+                    ),
+                },
+                {"role": "user", "content": texto},
+            ],
+        )
+
+        classificacao = chat.choices[0].message.content.strip().lower()
+
+        if classificacao not in ["valido", "irrelevante"]:
+            return Response({"error": "Resposta inesperada do modelo."}, status=500)
+
+        return Response({"classificacao": classificacao})
+
+    except Exception as e:
+        return Response({"error": f"Erro ao processar o texto: {str(e)}"}, status=500)

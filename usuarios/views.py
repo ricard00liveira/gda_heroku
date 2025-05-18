@@ -159,7 +159,7 @@ def user_profile(request):
             "cpf": user.cpf,
             "email": user.email,
             "nome": user.nome,
-            "tipo": user.tipo_usuario,
+            "tipo_usuario": user.tipo_usuario,
             "imagem_perfil_url": user.imagem_perfil.url if user.imagem_perfil else None,
             "conf_tema": user.conf_tema,
             "conf_notEmail": user.conf_not_email,
