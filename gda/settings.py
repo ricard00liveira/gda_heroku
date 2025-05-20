@@ -174,7 +174,6 @@ AUTH_USER_MODEL = "usuarios.User"
 
 # JWT use CPF like ID!
 
-
 api_settings.USER_ID_FIELD = "cpf"
 api_settings.USER_ID_CLAIM = "cpf"
 
@@ -187,12 +186,14 @@ SIMPLE_JWT = {
     "SIGNING_KEY": SECRET_KEY,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
-AWS_ACCESS_KEY_ID = "AKIA5TUCYBFPNEWBQFBL"
-AWS_SECRET_ACCESS_KEY = "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"
-AWS_STORAGE_BUCKET_NAME = "gda-app"
-AWS_S3_REGION_NAME = "us-east-2"
+# AWS S3 settings
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", default="us-east-1")
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "public, max-age=31536000",
 }
+
 django_heroku.settings(locals())

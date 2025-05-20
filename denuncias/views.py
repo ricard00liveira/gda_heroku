@@ -11,6 +11,7 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.shortcuts import get_object_or_404
 import openai
 import os
+from decouple import config, Csv
 
 
 class DenunciaViewSet(viewsets.ModelViewSet):
@@ -215,7 +216,7 @@ def criar_denuncia_anonima(request):
 
 
 # TRANSCRICÃO DE AUDIO
-openai.api_key = "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"
+openai.api_key = config("OPENAI_API_KEY")
 
 
 @api_view(["POST"])
