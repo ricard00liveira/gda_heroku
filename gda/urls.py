@@ -8,12 +8,11 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="API GDA",
+        title="API",
         default_version="v1",
-        description="Documentação da API do sistema GDA",
+        description="Description",
     ),
     public=True,
-    permission_classes=[permissions.AllowAny],
 )
 
 urlpatterns = [
