@@ -28,6 +28,7 @@ httplib2==0.22.0
 idna==3.10
 jmespath==1.0.1
 oauthlib==3.2.2
+openai==1.79.0
 packaging==24.1
 pillow==11.2.1
 proto-plus==1.26.1
