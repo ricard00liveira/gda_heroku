@@ -1,41 +1,29 @@
-from pathlib import Path
 import os
+from pathlib import Path
 from decouple import config
 import django_heroku
-from rest_framework_simplejwt.settings import api_settings
-from datetime import timedelta
 import dj_database_url
+from datetime import timedelta
+from rest_framework_simplejwt.settings import api_settings
 
-
-DEBUG = config("DEBUG", default=False, cast=bool)
-ALLOWED_HOSTS = [
-    "https://gda-app-644eb108e04c.herokuapp.com",
-    "back.gda-app.xyz",
-    "localhost",
-    "127.0.0.1",
-]
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# SECURITY WARNING: don't run with debug turned on in production!
-
-
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-    "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-}
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY")
 
-# Application definition
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = config("DEBUG", default=False, cast=bool)
 
+# ALLOWED_HOSTS should not include protocol (https://)
+ALLOWED_HOSTS = [
+    "gda-app-644eb108e04c.herokuapp.com",
+    "back.gda-app.xyz",
+    "localhost",
+    "127.0.0.1",
+]
+
+# Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -44,51 +32,30 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.gis",
-    # Novos
+    # Third-party apps
     "django_extensions",
     "rest_framework",
-    "rest_framework_gis",  # Para o GeoDjango
-    "corsheaders",  # Permitir requisições do front-end
-    "usuarios",  # Gerencia usuarios
-    "denuncias",  # Gerencia denúncias ambientais
-    "enderecos",  # Gerencia municipios, comarcas e logradouros
-    "fatosesub",  # Gerencia fatos e subfatos
-    "storages",  # Para o S3 AWS
+    "rest_framework_gis",
+    "corsheaders",
+    "storages",
+    # Local apps
+    "usuarios",
+    "denuncias",
+    "enderecos",
+    "fatosesub",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # Moved up for better ordering
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # Novos
-    "corsheaders.middleware.CorsMiddleware",
 ]
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:8080",
-    "https://gda-front.netlify.app",
-    "https://gda-app.xyz",
-    "https://back.gda-app.xyz",
-    # URL do frontend React
-]
-
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        #'rest_framework.authentication.SessionAuthentication',
-        #'rest_framework.authentication.BasicAuthentication',
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
-        #'rest_framework.permissions.AllowAny',
-    ],
-}
 
 ROOT_URLCONF = "gda.urls"
 
@@ -111,33 +78,16 @@ TEMPLATES = [
 WSGI_APPLICATION = "gda.wsgi.application"
 
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.contrib.gis.db.backends.postgis",
-#         "NAME": config("DB_NAME", default="gda_app"),
-#         "USER": config("DB_USER", default="usuario"),
-#         "PASSWORD": config("DB_PASSWORD", default="1234"),
-#         "HOST": config("DB_HOST", default="postgis_gda"),
-#     }
-# }
-
-# Banco de dados Heroku
 DATABASES = {
     "default": dj_database_url.config(
-        env="DATABASE_URL",
+        default=config("DATABASE_URL"),
         conn_max_age=600,
         conn_health_checks=True,
         ssl_require=True,
-    ),
+    )
 }
 
-APPEND_SLASH = False  # Não adicionar barra no final da URL
-
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -153,36 +103,58 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
 LANGUAGE_CODE = "pt-br"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-
-STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+# Media files (using S3)
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
+# AWS S3 settings
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", default="us-east-1")
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "public, max-age=31536000",
+}
+
+# Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Custom User Model
 AUTH_USER_MODEL = "usuarios.User"
 
-# JWT use CPF like ID!
+# CORS Settings
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:8080",
+    "https://gda-front.netlify.app",
+    "https://gda-app.xyz",
+    "https://back.gda-app.xyz",
+]
 
+# REST Framework Settings
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
+
+# JWT Settings
 api_settings.USER_ID_FIELD = "cpf"
 api_settings.USER_ID_CLAIM = "cpf"
 
@@ -195,14 +167,26 @@ SIMPLE_JWT = {
     "SIGNING_KEY": SECRET_KEY,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
-# AWS S3 settings
-AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", default="us-east-1")
-AWS_QUERYSTRING_AUTH = False
-AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "public, max-age=31536000",
-}
 
-django_heroku.settings(locals())
+# Security settings for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = "DENY"
+
+# Configure Django App for Heroku
+django_heroku.settings(
+    locals(), staticfiles=False
+)  # staticfiles=False because we're using Whitenoise
+
+# Fix for GDAL on Heroku
+if "DATABASE_URL" in os.environ:
+    GDAL_LIBRARY_PATH = os.environ.get("GDAL_LIBRARY_PATH")
+    GEOS_LIBRARY_PATH = os.environ.get("GEOS_LIBRARY_PATH")
