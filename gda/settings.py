@@ -4,6 +4,7 @@ from decouple import config
 import django_heroku
 from rest_framework_simplejwt.settings import api_settings
 from datetime import timedelta
+import dj_database_url
 
 
 DEBUG = config("DEBUG", default=False, cast=bool)
@@ -121,8 +122,9 @@ WSGI_APPLICATION = "gda.wsgi.application"
 #         "HOST": config("DB_HOST", default="postgis_gda"),
 #     }
 # }
+
 # Banco de dados Heroku
-DATABASES["default"] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+DATABASES = {"default": dj_database_url.config(conn_max_age=600, ssl_require=True)}
 
 APPEND_SLASH = False  # Não adicionar barra no final da URL
 
