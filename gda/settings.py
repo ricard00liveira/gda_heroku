@@ -204,8 +204,10 @@ AWS_QUERYSTRING_AUTH = False
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "public, max-age=31536000",
 }
-GDAL_LIBRARY_PATH = os.environ.get("GDAL_LIBRARY_PATH")
-GEOS_LIBRARY_PATH = os.environ.get("GEOS_LIBRARY_PATH")
 
-django_heroku.settings(locals())
-DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
+# Configuração específica para GeoDjango no Heroku
+if "DATABASE_URL" in os.environ:
+    GDAL_LIBRARY_PATH = os.getenv("GDAL_LIBRARY_PATH")
+    GEOS_LIBRARY_PATH = os.getenv("GEOS_LIBRARY_PATH")
+    django_heroku.settings(locals())
+    DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
