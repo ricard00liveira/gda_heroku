@@ -205,7 +205,7 @@ def recuperar_senha(request):
     service = build("gmail", "v1", credentials=creds)
 
     # Preparar conteúdo do e-mail
-    BASE_URL = "http://localhost:8080/"
+    BASE_URL = "https://gda-app.xyz/"
     reset_link = f"{BASE_URL}renew-password"
     corpo_email = f"""
 <html>
