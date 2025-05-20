@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from decouple import config
 import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -122,13 +123,12 @@ WSGI_APPLICATION = "gda.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": config("DB_NAME", default="gda_app"),
-        "USER": config("DB_USER", default="usuario"),
-        "PASSWORD": config("DB_PASSWORD", default="1234"),
-        "HOST": config("DB_HOST", default="postgis_gda"),
-    }
+    "default": dj_database_url.config(
+        default=config("DATABASE_URL"),
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True,
+    )
 }
 
 APPEND_SLASH = False  # Não adicionar barra no final da URL
@@ -206,4 +206,5 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 GDAL_LIBRARY_PATH = os.environ.get("GDAL_LIBRARY_PATH")
 GEOS_LIBRARY_PATH = os.environ.get("GEOS_LIBRARY_PATH")
+
 django_heroku.settings(locals())
