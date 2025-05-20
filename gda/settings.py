@@ -32,7 +32,7 @@ STORAGES = {
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-6s*p65htiq!019(hjpd4u7r5-#%mxsakdm64(xuvvt!%a4z@nr"
+SECRET_KEY = config("SECRET_KEY")
 
 # Application definition
 
@@ -124,7 +124,14 @@ WSGI_APPLICATION = "gda.wsgi.application"
 # }
 
 # Banco de dados Heroku
-DATABASES = {"default": dj_database_url.config(conn_max_age=600, ssl_require=True)}
+DATABASES = {
+    "default": dj_database_url.config(
+        env="DATABASE_URL",
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True,
+    ),
+}
 
 APPEND_SLASH = False  # Não adicionar barra no final da URL
 
