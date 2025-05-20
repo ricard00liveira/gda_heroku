@@ -8,6 +8,7 @@ from usuarios.models import User
 from .serializers import AnexoSerializer
 from .models import Denuncia, Anexo
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from django.shortcuts import get_object_or_404
 import openai
 import os
 
@@ -85,7 +86,14 @@ def editar_denuncia(request, denuncia_id):
             {"error": "Denúncia não encontrada"}, status=status.HTTP_404_NOT_FOUND
         )
 
-    if request.user.tipo_usuario not in ["adm", "operador"]:
+    if request.user.tipo_usuario == "comum":
+        if denuncia.status != "analise" or request.user != denuncia.denunciante:
+            return Response(
+                {"error": "Você não tem permissão para editar esta denúncia."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+    elif request.user.tipo_usuario not in ["adm", "operador"]:
         return Response(
             {"error": "Você não tem permissão para editar esta denúncia"},
             status=status.HTTP_403_FORBIDDEN,
@@ -97,7 +105,10 @@ def editar_denuncia(request, denuncia_id):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(
+        {"error": "Erro ao validar os dados", "detalhes": serializer.errors},
+        status=status.HTTP_400_BAD_REQUEST,
+    )
 
 
 # DELETE
@@ -275,3 +286,49 @@ def validar_historico(request):
 
     except Exception as e:
         return Response({"error": f"Erro ao processar o texto: {str(e)}"}, status=500)
+
+
+# LISTAR ANEXOS POR DENUNCIA
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def listar_anexos_por_denuncia(request, denuncia_id):
+    denuncia = get_object_or_404(Denuncia, numero=denuncia_id)
+    anexos = Anexo.objects.filter(denuncia=denuncia)
+    serializer = AnexoSerializer(anexos, many=True, context={"request": request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# LISTAR ANEXOS POR ID
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def deletar_anexo(request, anexo_id):
+    anexo = get_object_or_404(Anexo, id=anexo_id)
+    user = request.user
+
+    if user.tipo_usuario == "comum":
+        if anexo.denuncia.denunciante != user:
+            return Response(
+                {"error": "Você não tem permissão para excluir este anexo."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        if anexo.denuncia.status != "analise":
+            return Response(
+                {
+                    "error": "Você só pode excluir anexos enquanto a denúncia estiver em análise."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+    elif user.tipo_usuario not in ["adm", "operador"]:
+        return Response(
+            {"error": "Você não tem permissão para excluir este anexo."},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    if anexo.arquivo:
+        anexo.arquivo.delete(save=False)
+
+    anexo.delete()
+    return Response(
+        {"success": "Anexo deletado com sucesso."}, status=status.HTTP_204_NO_CONTENT
+    )

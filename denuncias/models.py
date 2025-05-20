@@ -26,6 +26,7 @@ class Denuncia(models.Model):
         verbose_name="Denunciante",
         related_name="denunciante_denuncias",
     )
+    denunciante_nome = models.CharField(max_length=255, null=True, blank=True)
     anonima = models.BooleanField(default=False, verbose_name="Denúncia anônima")
     descricao = models.TextField()
     data = models.DateTimeField(auto_now_add=True)
@@ -33,9 +34,11 @@ class Denuncia(models.Model):
         Logradouro,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         verbose_name="Endereço relacionado",
         related_name="logradouro_denuncias",
     )
+    endereco_nome = models.CharField(max_length=255, null=True, blank=True)
     bairro = models.CharField(
         max_length=255, verbose_name="Bairro", blank=True, null=True
     )
@@ -66,6 +69,7 @@ class Denuncia(models.Model):
         verbose_name="Município relacionado",
         related_name="denuncias",
     )
+    municipio_nome = models.CharField(max_length=255, null=True, blank=True)
     fato = models.ForeignKey(
         Fato,
         on_delete=models.SET_NULL,
@@ -74,6 +78,7 @@ class Denuncia(models.Model):
         verbose_name="Fato relacionado",
         related_name="fato_denuncias",
     )
+    fato_nome = models.CharField(max_length=255, null=True, blank=True)
     subfato = models.ForeignKey(
         Subfato,
         on_delete=models.SET_NULL,
@@ -82,6 +87,7 @@ class Denuncia(models.Model):
         verbose_name="Subfato relacionado",
         related_name="subfato_denuncias",
     )
+    subfato_nome = models.CharField(max_length=255, null=True, blank=True)
     responsavel = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -90,6 +96,7 @@ class Denuncia(models.Model):
         verbose_name="Usuário responsável",
         related_name="responsavel_denuncias",
     )
+    responsavel_nome = models.CharField(max_length=255, null=True, blank=True)
     is_deleted = models.BooleanField(default=False, verbose_name="Deletado")
     infrator = models.CharField(
         max_length=255, verbose_name="Infrator", blank=True, null=True

@@ -30,4 +30,15 @@ urlpatterns = [
     path("denuncias/transcrever-audio/", transcrever_audio, name="transcrever-audio"),
     # Validação de histórico
     path("denuncias/validar-historico/", validar_historico, name="validar-historico"),
+    # Listar anexos por denúncia
+    path(
+        "denuncias/<int:denuncia_id>/anexos/",
+        listar_anexos_por_denuncia,
+        name="listar_anexos_por_denuncia",
+    ),
+    path(
+        "denuncias/anexos/<int:anexo_id>/delete/",
+        deletar_anexo,
+        name="deletar_anexo",
+    ),
 ]

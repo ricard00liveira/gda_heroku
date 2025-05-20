@@ -21,7 +21,10 @@ class AnexoSerializer(serializers.ModelSerializer):
         ]
 
     def get_arquivo_url(self, obj):
-        return obj.arquivo.url if obj.arquivo else None
+        request = self.context.get("request")
+        if obj.arquivo and request:
+            return request.build_absolute_uri(obj.arquivo.url)
+        return None
 
 
 class DenunciaSerializer(serializers.ModelSerializer):

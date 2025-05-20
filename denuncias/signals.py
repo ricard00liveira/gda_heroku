@@ -13,7 +13,8 @@ def set_denunciante_name_on_delete(sender, instance, **kwargs):
     denuncias = Denuncia.objects.filter(denunciante=instance)
 
     for denuncia in denuncias:
-        denuncia.denunciante = instance.nome
+        denuncia.denunciante_nome = instance.nome
+        denuncia.denunciante = None
         denuncia.save()
 
 
@@ -22,7 +23,8 @@ def set_endereco_name_on_delete(sender, instance, **kwargs):
     denuncias = Denuncia.objects.filter(endereco=instance)
 
     for denuncia in denuncias:
-        denuncia.endereco = instance.nome
+        denuncia.endereco_nome = instance.nome
+        denuncia.endereco = None
         denuncia.save()
 
 
@@ -31,7 +33,8 @@ def set_municipio_name_on_delete(sender, instance, **kwargs):
     denuncias = Denuncia.objects.filter(municipio=instance)
 
     for denuncia in denuncias:
-        denuncia.municipio = instance.nome
+        denuncia.municipio_nome = instance.nome
+        denuncia.municipio = None
         denuncia.save()
 
 
@@ -40,7 +43,8 @@ def set_responsavel_name_on_delete(sender, instance, **kwargs):
     denuncias = Denuncia.objects.filter(responsavel=instance)
 
     for denuncia in denuncias:
-        denuncia.responsavel = instance.nome
+        denuncia.responsavel_nome = instance.nome
+        denuncia.responsavel = None
         denuncia.save()
 
 
@@ -49,7 +53,8 @@ def set_fato_name_on_delete(sender, instance, **kwargs):
     denuncias = Denuncia.objects.filter(fato=instance)
 
     for denuncia in denuncias:
-        denuncia.fato = instance.nome
+        denuncia.fato_nome = instance.nome
+        denuncia.fato = None
         denuncia.save()
 
 
@@ -58,8 +63,10 @@ def set_subfato_name_on_delete(sender, instance, **kwargs):
     denuncias = Denuncia.objects.filter(subfato=instance)
 
     for denuncia in denuncias:
-        denuncia.subfato = instance.nome
+        denuncia.subfato_nome = instance.nome
+        denuncia.subfato = None
         denuncia.save()
+
 
 @receiver(pre_save, sender=Denuncia)
 def registrar_status_historico(sender, instance, **kwargs):
@@ -73,7 +80,4 @@ def registrar_status_historico(sender, instance, **kwargs):
         return
 
     if denuncia_antiga.status != instance.status:
-        StatusHistorico.objects.create(
-            denuncia=instance,
-            status=instance.status
-        )
+        StatusHistorico.objects.create(denuncia=instance, status=instance.status)

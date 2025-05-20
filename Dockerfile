@@ -22,6 +22,7 @@ COPY . /app
 # Instala dependências Python
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN pip install dj-database-url
 
 # Porta exposta pelo Django
 EXPOSE 8000
