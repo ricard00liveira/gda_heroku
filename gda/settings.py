@@ -204,6 +204,7 @@ AWS_QUERYSTRING_AUTH = False
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "public, max-age=31536000",
 }
+AWS_DEFAULT_ACL = "bucket-owner-full-control"
 SWAGGER_SETTINGS = {
     "DEFAULT_GENERATOR_CLASS": "drf_yasg.generators.OpenAPISchemaGenerator",
 }
