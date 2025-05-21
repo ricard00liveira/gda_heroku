@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from ..models import Municipio, Comarca, Logradouro, LogCor
+from django.db import transaction
 
 
 class MunicipioSerializer(serializers.ModelSerializer):
@@ -10,17 +11,25 @@ class MunicipioSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate_nome(self, value):
-        if Municipio.objects.filter(nome=value).exists():
-            raise serializers.ValidationError(
-                f"Já existe um município com o nome '{value}'."
-            )
+        if self.instance:
+            if (
+                Municipio.objects.filter(nome=value)
+                .exclude(id=self.instance.id)
+                .exists()
+            ):
+                raise serializers.ValidationError(
+                    f"Já existe um município com o nome '{value}'."
+                )
+        else:
+            if Municipio.objects.filter(nome=value).exists():
+                raise serializers.ValidationError(
+                    f"Já existe um município com o nome '{value}'."
+                )
         return value
 
     def validate_comarca(self, value):
         if not value:
             raise serializers.ValidationError("O campo 'comarca' não pode estar vazio.")
-        if not Comarca.objects.filter(id=value.id).exists():
-            raise serializers.ValidationError(f"A comarca '{value.nome}' não existe.")
         return value
 
     def validate(self, data):
@@ -33,20 +42,19 @@ class MunicipioSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        # Extrair o arquivo JSON, se fornecido
         arquivo = validated_data.pop("arquivo", None)
-        municipio = Municipio.objects.create(**validated_data)
+        try:
+            with transaction.atomic():
+                municipio = Municipio.objects.create(**validated_data)
+                if arquivo:
+                    import json
 
-        if arquivo:
-            try:
-                import json
-
-                json_data = json.load(arquivo)
-                self.processar_base_faces(json_data, municipio)
-            except Exception as e:
-                raise serializers.ValidationError(
-                    {"arquivo": f"Erro ao processar o arquivo JSON: {str(e)}"}
-                )
+                    json_data = json.load(arquivo)
+                    self.processar_base_faces(json_data, municipio)
+        except Exception as e:
+            raise serializers.ValidationError(
+                {"arquivo": f"Erro ao processar o arquivo JSON: {str(e)}"}
+            )
 
         return municipio
 
