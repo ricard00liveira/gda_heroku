@@ -10,7 +10,8 @@ from django.utils import timezone
 from django.utils.timezone import now
 import uuid
 import os
-
+import base64
+import tempfile
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated, IsAdminUser])
@@ -199,9 +200,19 @@ def recuperar_senha(request):
     user.reset_token_created = timezone.now()
     user.save()
 
-    # Carregar credenciais do token.json
-    SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
-    creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+# Decodificar o conteúdo da variável de ambiente
+token_base64 = os.environ.get("GOOGLE_TOKEN_JSON_BASE64")
+if not token_base64:
+    raise Exception("Variável de ambiente GOOGLE_TOKEN_JSON_BASE64 não definida")
+
+# Criar arquivo temporário para as credenciais
+token_data = base64.b64decode(token_base64)
+with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as temp_token:
+    temp_token.write(token_data)
+    temp_token_path = temp_token.name
+
+# Carregar as credenciais
+creds = Credentials.from_authorized_user_file(temp_token_path, SCOPES)
     service = build("gmail", "v1", credentials=creds)
 
     # Preparar conteúdo do e-mail
