@@ -1,6 +1,7 @@
 /staticfiles/
 DEPLOY.txt
 .env
+.env copy
 .env.prod
 /municipios/
 *.zip
