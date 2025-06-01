@@ -81,15 +81,12 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = False  # MUITO IMPORTANTE
 CORS_ALLOWED_ORIGINS = config(
     "CORS_ALLOWED_ORIGINS",
-    cast=Csv,
-    default=[
-        "http://localhost:3000",  # Frontend local (se usar porta 3000)
-        "http://127.0.0.1:3000",  # Frontend local (se usar porta 3000)
-        "https://gda-app.xyz",  # Seu frontend em produção
-    ],
+    cast=Csv(),
+    default="http://localhost:3000,http://127.0.0.1:3000,https://gda-app.xyz",
 )
+
 # Se você usar credenciais (cookies, auth headers) com CORS:
-# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
 
 # --- CSRF_TRUSTED_ORIGINS ---
 # Domínios confiáveis para requisições POST que exigem CSRF
