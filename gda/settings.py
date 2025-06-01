@@ -307,5 +307,5 @@ if "DATABASE_URL" in os.environ or config(
     django_heroku.settings(locals(), staticfiles=False)
 
     # Sobrescreve o engine do banco de dados para PostGIS se estiver usando GeoDjango
-    if DATABASES["default"]["URL"].startswith("postgres"):
+    if DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
         DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
