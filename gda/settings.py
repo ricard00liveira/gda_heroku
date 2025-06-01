@@ -286,7 +286,7 @@ SWAGGER_SETTINGS = {
             "description": "Formato do Token: Bearer [seu_token_aqui]",
         }
     },
-    # "DEFAULT_GENERATOR_CLASS": "drf_yasg.generators.OpenAPISchemaGenerator", # Do seu settings
+    "USE_SESSION_AUTH": False,
 }
 
 # --- Configuração django-heroku e GeoDjango (Preservada do seu arquivo original) ---
