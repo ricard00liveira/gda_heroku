@@ -78,27 +78,22 @@ MIDDLEWARE = [
 ]
 
 # --- Configurações de CORS ---
-CORS_ALLOW_ALL_ORIGINS = False  # MUITO IMPORTANTE
-CORS_ALLOWED_ORIGINS = config(
-    "CORS_ALLOWED_ORIGINS",
-    cast=Csv(),
-    default="http://localhost:3000,http://127.0.0.1:3000,https://gda-app.xyz",
-)
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+    "https://gda-app.xyz",
+]
 
-# Se você usar credenciais (cookies, auth headers) com CORS:
-CORS_ALLOW_CREDENTIALS = True
-
-# --- CSRF_TRUSTED_ORIGINS ---
-# Domínios confiáveis para requisições POST que exigem CSRF
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
-    cast=Csv,
+    cast=Csv(),
     default=[
-        "http://localhost:3000",  # Frontend local
-        "http://127.0.0.1:3000",  # Frontend local
-        "https://gda-app.xyz",  # Seu frontend em produção
-        "https://back.gda-app.xyz",  # Seu backend
-        "https://gda-app-644eb108e04c.herokuapp.com",  # Seu backend no Heroku
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+        "https://gda-app.xyz",
+        "https://back.gda-app.xyz",
+        "https://gda-app-644eb108e04c.herokuapp.com",
     ],
 )
 
