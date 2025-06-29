@@ -89,11 +89,7 @@ CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
     cast=Csv(),
     default=[
-        "http://localhost:8080",
-        "http://127.0.0.1:8080",
-        "https://gda-app.xyz",
-        "https://back.gda-app.xyz",
-        "https://gda-app-644eb108e04c.herokuapp.com",
+        "http://localhost:8080,http://127.0.0.1:8080,https://gda-app.xyz,https://back.gda-app.xyz,https://gda-app-644eb108e04c.herokuapp.com",
     ],
 )
 
